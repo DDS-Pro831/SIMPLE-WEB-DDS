@@ -1,0 +1,201 @@
+:root{
+  --container: 1200px;
+  --pad: 24px;
+
+  /* marca */
+  --title: #1f2a44;
+  --text: #1e2433;
+
+  /* foto doble borde */
+  --offset-1: #f5b800; /* amarillo (más cerca) */
+  --offset-2: #1E2B45; /* azul (más lejos) */
+  --radius: 16px;
+}
+
+/* sección */
+.dd-about {
+  position: relative;
+  background: #fff;
+  padding-block: clamp(2rem, 6vw, 4rem);
+}
+
+/* fondo decorativo (NodeBall) */
+.dd-about-bg{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;         /* por debajo del contenido */
+}
+
+/* GRID con áreas */
+.dd-about-grid{
+  position: relative;
+  z-index: 1;         /* sobre el fondo */
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+  display: grid;
+  grid-template-columns: minmax(280px, 42%) 1fr;
+  grid-template-areas:
+    "art content"
+    "text image";
+  align-items: center;
+  column-gap: clamp(1rem, 3vw, 2rem);
+  row-gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+/* =============== PARTE 1 =============== */
+.dd-about-art{
+  grid-area: art;
+  position: relative;
+  isolation: isolate;                    /* crea contexto de apilado */
+  height: clamp(180px, 34vw, 360px);
+  margin-left: max(-6vw, -64px);         /* que “salga” del borde izquierdo */
+  overflow: visible;
+  border-radius: var(--radius);
+}
+.dd-about-art img{
+  position: relative;
+  z-index: 2;                             /* por encima de los bordes */
+  display: block;
+  width: calc(84% + 6vw);
+  height: 100%;
+  object-fit: cover;
+  object-position: center 70%;
+  border-radius: inherit;
+  filter: contrast(.95) saturate(.95);
+}
+.dd-about-art::before,
+.dd-about-art::after{
+  content:"";
+  position:absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+}
+.dd-about-art::before{                    /* azul (más lejos) */
+  background: var(--offset-2);
+  transform: translate(20px, 20px);
+}
+.dd-about-art::after{                     /* amarillo (más cerca) */
+  background: var(--offset-1);
+  transform: translate(10px, 12px);
+}
+
+/* texto principal */
+.dd-about-content{
+  grid-area: content;
+  padding-inline: clamp(.25rem, 1vw, .5rem);
+  color: var(--text);
+}
+.dd-about-content h2{
+  margin: 0 0 .75rem 0;
+  font-size: clamp(1.9rem, 3.8vw, 2.4rem);
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  color: var(--title);
+  text-align: center;
+  text-wrap: balance;
+}
+.dd-about-text{
+  max-width: 55ch;
+  margin-inline: auto;
+}
+.dd-about-text p{
+  margin: 0 0 .55rem 0;
+  line-height: 1.6;
+  font-size: clamp(1.2rem, 1.1vw, 1.06rem);
+  text-align: left;
+}
+
+/* =============== PARTE 2 =============== */
+.dd-about2-text{
+  grid-area: text;
+  color: var(--text);
+}
+.dd-about2-text p{
+  font-size: clamp(1.3rem, 1.1vw, 1.06rem);
+  line-height: 1.6;
+  max-width: 52ch;
+}
+.dd-about2-text strong{
+  font-weight: 700;
+  color: var(--title);
+}
+
+/* foto con DOBLE borde */
+.dd-about2-image{
+  grid-area: image;
+  position: relative;
+  display: inline-block;
+}
+.dd-about2-image img{
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  position: relative;
+  z-index: 2;
+  object-fit: cover;
+}
+
+/* capas del offset */
+.dd-about2-image::before,
+.dd-about2-image::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  z-index: 0;
+}
+.dd-about2-image::before{            /* azul (más lejos) */
+  background: var(--offset-2);
+  transform: translate(20px, 20px);
+}
+.dd-about2-image::after{             /* amarillo (más cerca) */
+  background: var(--offset-1);
+  transform: translate(10px, 12px);
+}
+
+/* =============== RESPONSIVE =============== */
+
+@media (max-width: 960px){
+  /* Orden en móvil: texto principal → imagen 1 → texto corto → imagen 2 */
+  .dd-about-grid{
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "content"
+      "art"
+      "text"
+      "image";
+    row-gap: 1.25rem;
+  }
+
+  /* Imagen 1 centrada, sin “salida” a la izquierda */
+  .dd-about-art{
+    margin: 0 auto;
+    width: min(640px, 100%);
+    height: auto;
+    aspect-ratio: 16 / 10;        /* mantiene proporción */
+    border-radius: var(--radius);
+    isolation: isolate;
+  }
+  .dd-about-art img{
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+  }
+
+  /* Doble borde más sutil en móvil */
+  .dd-about-art::before{ transform: translate(11px, 11px); }
+  .dd-about-art::after{  transform: translate(5px, 5px);  }
+
+  /* El fade puede estorbar el borde en móvil: lo quitamos */
+  .dd-about-fade{ display: none; }
+
+  /* Texto corto centrado y foto 2 centrada */
+  .dd-about2-text p{ margin-inline: auto; }
+  .dd-about2-image{ justify-self: center; width: min(640px, 100%); }
+  .dd-about2-image::before{ transform: translate(11px, 11px); }
+  .dd-about2-image::after{  transform: translate(5px, 5px);  }
+}

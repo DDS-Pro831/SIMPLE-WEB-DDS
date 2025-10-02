@@ -1,0 +1,104 @@
+.dd-contact {
+  background: #2a3553; /* azul del mock */
+  color: #fff;
+  padding: clamp(40px, 6vw, 72px) 16px;
+}
+
+.dd-contact__container {
+  max-width: var(--dd-max, 1100px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+}
+
+.dd-contact__left h2 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  margin: 0 0 20px;
+  letter-spacing: 0.3px;
+}
+
+.dd-contact__brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dd-contact__iso {
+  width: 56px;
+  height: 56px;
+  border: 2px solid rgba(255,255,255,.8);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  padding: 6px;
+}
+.dd-contact__iso span {
+  width: 8px; height: 8px; border-radius: 50%; background: #fff;
+}
+
+.dd-contact__brandtext strong {
+  display: block;
+  font-size: 1.6rem; line-height: 1.1;
+}
+.dd-contact__brandtext small {
+  opacity: .85; font-size: .9rem;
+}
+
+/* Lista de medios */
+.dd-contact__list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+
+.dd-contact__item {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  align-items: center;
+  column-gap: 14px;
+}
+
+.dd-contact__icon {
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  color: #fff;
+  opacity: .95;
+}
+
+.dd-contact__link,
+.dd-contact__text {
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+}
+
+.dd-contact__link:hover,
+.dd-contact__link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dd-contact__logo {
+  max-width: 200px;
+  height: auto;
+  display: block;
+}
+
+
+@media (max-width: 860px) {
+  .dd-contact__container {
+    grid-template-columns: 1fr;
+  }
+  .dd-contact__left {
+    margin-bottom: 8px;
+  }
+  .dd-contact__brand{
+    display: flex;
+    justify-content: center;
+  }
+}

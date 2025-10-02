@@ -1,0 +1,146 @@
+:root{
+  --container: 1200px;
+  --pad: 24px;
+
+  --title: #1f2a44;
+  --text: #1e2433;
+
+  /* doble borde de la foto */
+  --accent-1: #f5b800;  /* amarillo (cerca) */
+  --accent-2: #1E2B45;  /* azul (sombra lejana) */
+  --radius: 14px;
+
+  /* pill del cargo */
+  --pill-bg: #5b6780;
+  --pill-text: #fff;
+}
+
+.dd-team{
+  position: relative;
+  background: #f7f9fc; /* muy leve */
+  padding-block: clamp(2rem, 7vw, 5rem);
+  overflow: hidden;
+}
+
+/* Fondo con tu imagen desde /public */
+/*.dd-team-bg{
+  position: absolute; inset: 0;
+  background: url("/images/team-bg.png") center/cover no-repeat;
+  opacity: .35;
+  pointer-events: none;
+}
+*/
+/* contenedor */
+.dd-team-inner{
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+  position: relative;
+  z-index: 1;
+}
+
+/* título */
+.dd-team-title{
+  margin: 0 0 clamp(1rem, 3vw, 2rem) 0;
+  text-align: right;                    /* como en el mockup */
+  font-size: clamp(1.9rem, 3.8vw, 2.4rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--title);
+}
+
+/* grid de tarjetas */
+.dd-team-grid{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
+  gap: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2.25rem);
+}
+
+/* tarjeta */
+.dd-team-card{
+  display: grid;
+  grid-template-rows: auto auto auto;
+  align-items: start;
+  text-align: center;
+  color: var(--text);
+  gap: .75rem;
+}
+
+/* foto con borde amarillo + sombra azul (doble offset) */
+.dd-team-photo{
+  margin: 5%;
+  position: relative;
+  border-radius: var(--radius);
+  isolation: isolate;
+}
+.dd-team-photo img{
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: inherit;
+  /*border: 4px solid var(--accent-1);*/     /* borde amarillo visible */
+  position: relative;
+  z-index: 2;
+  object-fit: cover;
+}
+
+/* capas detrás */
+.dd-team-photo::before,
+.dd-team-photo::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+}
+.dd-team-photo::before{                  /* sombra azul (más lejos) */
+  background: var(--accent-2);
+  transform: translate(14px, 14px);
+}
+.dd-team-photo::after{                   /* realce amarillo (más cerca) */
+  background: var(--accent-1);
+  transform: translate(8px, 8px);
+}
+
+/* pill del cargo debajo de la foto */
+.dd-team-role{
+  display: inline-block;
+  align-self: center;
+  background: var(--pill-bg);
+  color: var(--pill-text);
+  padding: .55rem .9rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: clamp(.85rem, 1.2vw, .95rem);
+  box-shadow: 0 8px 18px rgba(16,24,40,.18);
+  margin-top: -.5rem; /* se pega a la foto */
+}
+
+/* nombre y grado */
+.dd-team-name{
+  margin: .25rem 0 0 0;
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
+  color: var(--title);
+}
+.dd-team-degree{
+  margin: .15rem 0 0 0;
+  font-size: clamp(.92rem, 1.1vw, 1rem);
+  opacity: .9;
+}
+
+/* Responsive */
+@media (max-width: 1024px){
+  .dd-team-grid{ grid-template-columns: repeat(2, minmax(240px, 1fr)); }
+}
+@media (max-width: 640px){
+  .dd-team-title{ text-align: center; }
+  .dd-team-grid{ grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; }
+  .dd-team-photo::before{ transform: translate(10px, 10px); }
+  .dd-team-photo::after{  transform: translate(5px, 6px);  }
+}
+@media (prefers-reduced-motion: reduce){
+  *{ transition: none !important; animation: none !important; }
+}

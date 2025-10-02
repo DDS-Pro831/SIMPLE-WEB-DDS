@@ -1,0 +1,13 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f7f8fb; /* mismo color que header para que no se vea borde */
+}
+
+html {
+  scroll-behavior: smooth;
+}
