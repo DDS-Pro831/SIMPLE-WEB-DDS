@@ -32,13 +32,13 @@ const MEMBERS: Member[] = [
     photo: "Emanuel-min.jpg",
     alt: "Emanuel Gonzales"
   },
-  /*{
+  {
     name: "Kevin Uruchi Coarite",
     role: "FULL STACK Developer",
     degree: "Ing. de Sistemas",
-    photo: "/images/team/kevin.jpg",
+    photo: "Kiwi-min.png",
     alt: "Kevin Uruchi"
-  },*/
+  },
   {
     name: "Edely Tito Laredo",
     role: "Business Analyst",
