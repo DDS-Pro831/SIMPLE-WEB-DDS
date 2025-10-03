@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
 
         <nav id="primary-nav" className={`dd-nav ${open ? "open" : ""}`} aria-label="Principal">
           <a href="#about">Sobre Nosotros</a>
-          <a href="#ofrecemos">Nuestro Producto</a>
+          <a href="#ofrecemos">Servicios</a>
           <a href="#clientes">Clientes</a>
           <a href="#contacto" className="dd-btn">Contacto</a>
         </nav>

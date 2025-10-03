@@ -30,6 +30,7 @@ const LinkedinIcon = () => (
 
 const items = [
     { label: "(591) 72031600", href: "tel:+59172031600", icon: <PhoneIcon /> },
+    { label: "(506) 6187 2840", href: "tel:+50661872840", icon: <PhoneIcon /> },
     { label: "info@datadrivensolutions.dev", href: "mailto:info@datadrivensolutions.dev", icon: <MailIcon /> },
     { label: "@dds-dev", href: "https://instagram.com/dds-dev", icon: <IgIcon /> },
     { label: "linkedin.com/company/dds-dev", href: "https://www.linkedin.com/company/dds-dev", icon: <LinkedinIcon /> }

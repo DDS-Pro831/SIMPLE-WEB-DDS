@@ -7,8 +7,8 @@
   --text: #1e2433;
 
   /* foto doble borde */
-  --offset-1: #f5b800; /* amarillo (más cerca) */
-  --offset-2: #1E2B45; /* azul (más lejos) */
+  --offset-1: #bf9b30; /* amarillo (más cerca) */
+  --offset-2: #2c3a57; /* azul (más lejos) */
   --radius: 16px;
 }
 
