@@ -1,0 +1,3 @@
+git add .
+git commit -m "correciones 02 10 25"
+git push

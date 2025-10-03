@@ -26,11 +26,11 @@ const MEMBERS: Member[] = [
     alt: "Daniela Holguín"
   },
   {
-    name: "Santiago Amaya",
+    name: "Santiago Vega",
     role: "Consultor Externo de Desarrollo Estratégico",
     degree: "Administrador de Empresas; Ing. Industrial MSc",
     photo: "Santiago-min.png",
-    alt: "Santiago Amaya"
+    alt: "Santiago Vega"
   },
   {
     name: "Emanuel Gonzales Quiroz",
