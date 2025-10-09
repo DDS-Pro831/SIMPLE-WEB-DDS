@@ -1,0 +1,10 @@
+/* // src/App.css */
+.dds-layout-body{
+  min-height: calc(100dvh - 112px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  /* nuevo: reserva espacio de la barra fija */
+  padding-bottom: var(--fr-h-collapsed);
+}

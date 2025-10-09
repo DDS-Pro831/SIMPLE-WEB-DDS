@@ -1,27 +1,19 @@
-import './App.css'
-import About from './components/About'
-import Clients from './components/Clients'
-import Contact from './components/Contact'
-import Hero from './components/Hero'
-import MissionVision from './components/MissionVision'
-import Navbar from './components/Navbar'
-import Offers from './components/Offers'
-import Team from './components/Team'
+// Propósito: Punto principal de la app. Monta BrowserRouter y las rutas globales.
+// Navbar y FooterReveal se renderizan dentro de MainLayout (no aquí).
+
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
+import "./App.css";
+import AppRoutes from "@/app/routes/AppRoutes";
 
 function App() {
-
   return (
-    <>
-      <Navbar /> 
-      <Hero />
-      <About />
-      <MissionVision />
-      <Offers />
-      <Team />
-      <Clients />
-      <Contact />
-    </>
-  )
+    <BrowserRouter>
+      <main id="main-content" role="main">
+        <AppRoutes />
+      </main>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

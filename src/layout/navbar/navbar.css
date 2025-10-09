@@ -29,18 +29,45 @@
 }
 
 .dd-brand{display:inline-flex; align-items:center; gap:10px}
+.dd-brand img{
+  display:block;
+  height:48px;   /* ajusta 40–56px según tu header */
+  width:auto;
+}
 
 /* nav desktop */
-.dd-nav{display:flex; align-items:center; gap:28px; font-weight:600}
-.dd-nav a{color:var(--dd-muted); text-decoration:none; letter-spacing:.2px}
-.dd-nav a:hover{color:var(--dd-text)}
+.dd-nav{
+  display:flex; align-items:center; gap:28px; font-weight:600
+}
+.dd-nav a{
+  color:var(--dd-muted); text-decoration:none; letter-spacing:.2px
+}
+.dd-nav a:hover{ color:var(--dd-text) }
+
+/* Estado activo (NavLink) */
+.dd-nav a.active,
+.dd-nav a[aria-current="page"]{
+  color:var(--dd-text);
+  text-decoration:none;
+  position:relative;
+}
+.dd-nav a.active::after,
+.dd-nav a[aria-current="page"]::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:-6px; height:2px;
+  background:var(--dd-text);
+  border-radius:2px;
+  transform-origin:left;
+}
+
+/* CTA Contacto */
 .dd-btn{
   color:#fff !important; background:var(--dd-accent);
   padding:8px 14px; border-radius:var(--dd-radius);
   box-shadow:0 1px 0 rgba(0,0,0,.15), inset 0 -1px 0 rgba(255,255,255,.06);
 }
-.dd-btn:active{transform:translateY(1px); background:var(--dd-accent-press)}
-.dd-btn:focus-visible{outline:none; box-shadow:var(--dd-ring)}
+.dd-btn:active{ transform:translateY(1px); background:var(--dd-accent-press) }
+.dd-btn:focus-visible{ outline:none; box-shadow:var(--dd-ring) }
 
 /* burger button (mobile) */
 .dd-burger{
@@ -50,7 +77,7 @@
 
 /* responsive */
 @media (max-width: 900px){
-  .dd-burger{display:block}
+  .dd-burger{ display:block }
   .dd-nav{
     position:absolute; top:56px; right:12px;
     display:none; flex-direction:column; gap:10px;
@@ -59,12 +86,12 @@
     border:1px solid rgba(15,21,38,.06);
     min-width:220px;
   }
-  .dd-nav.open{display:flex}
+  .dd-nav.open{ display:flex }
 }
 
-.dd-brand img{
-  display:block;
-  height:48px;   /* prueba 40–48px según tu header */
-  width:auto;
+/* Accesibilidad: foco visible */
+.dd-nav a:focus-visible,
+.dd-burger:focus-visible,
+.dd-brand:focus-visible{
+  outline:none; box-shadow:var(--dd-ring); border-radius:8px;
 }
-

@@ -1,0 +1,104 @@
+:root{
+  --fr-bg:#1e2b45;
+  --fr-bg-2:#152034;
+  --fr-fg:#eaf1ff;
+  --fr-muted:#b8c2d9;
+  --fr-accent:#d2a84f;
+  --fr-max:1200px;
+  --fr-h-collapsed:56px;  /* altura de la barra compacta */
+  --fr-h-expanded:340px;  /* alto del panel abierto */
+  --fr-shadow:0 -8px 30px rgba(0,0,0,.28);
+}
+
+/* === Footer SIEMPRE pegado al pie === */
+.dd-footer{
+  position: fixed;   /* <-- antes: sticky */
+  left: 0; right: 0; bottom: 0;
+  z-index: 40;
+  color: var(--fr-fg);
+  font-weight: 500;
+}
+
+/* Barra compacta (siempre visible) */
+.dd-footer__bar{
+  height: var(--fr-h-collapsed);
+  background: linear-gradient(180deg, var(--fr-bg-2), #0d1526);
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 0 16px; gap:12px;
+  cursor:pointer; user-select:none;
+  box-shadow: 0 -1px 0 rgba(255,255,255,.06), 0 -6px 18px rgba(0,0,0,.18);
+}
+
+/* Marca barra */
+.dd-footer__brand{ display:flex; align-items:center; gap:12px; letter-spacing:.2px; }
+.dd-footer__brand img{ height:28px; width:auto; display:block; }  /* icono pequeño */
+.dd-footer__brand span{ opacity:.92; }
+
+/* Íconos “peek” */
+.dd-footer__peek{ display:flex; align-items:center; gap:12px; }
+.dd-footer__peek svg{ color:#cbd8ff; opacity:.9; }
+
+/* Panel expandido (overlay) */
+.dd-footer__panel{
+  height: 0;
+  overflow: clip;
+  background: var(--fr-bg);
+  box-shadow: var(--fr-shadow);
+  transition: height .28s ease, opacity .28s ease;
+  opacity: 0;
+}
+.dd-footer.is-open .dd-footer__panel{ height: var(--fr-h-expanded); opacity:1; }
+
+/* Contenido del panel */
+.dd-footer__content{
+  max-width: var(--fr-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 1.9fr;
+  gap: 24px;
+  padding: 22px 18px 10px;
+}
+@media (max-width:900px){ .dd-footer__content{ grid-template-columns:1fr; padding:16px 14px; } }
+
+.dd-footer__left{ display:flex; flex-direction:column; gap:10px; }
+
+/* 👇 corregimos tamaño del logo (el grande del panel) */
+.dd-footer__logo{
+  max-width: 220px;   /* limite ancho */
+  width: 100%;
+  height: auto;       /* evita deformaciones */
+  display: block;
+  image-rendering: auto;
+}
+
+.dd-footer__claim{ font-size:1.1rem; margin:0; }
+.dd-footer__subclaim{ color:var(--fr-muted); margin:0; }
+
+.dd-footer__list{
+  display:grid; grid-template-columns:repeat(2, minmax(220px,1fr));
+  gap:14px 24px; padding:0; margin:0; list-style:none;
+}
+@media (max-width:560px){ .dd-footer__list{ grid-template-columns:1fr; } }
+
+.dd-footer__item{ display:flex; align-items:center; gap:12px; }
+.dd-footer__icon svg{ color:#e6ecff; }
+.dd-footer__link{ color:#fff; text-decoration:none; }
+.dd-footer__link:hover{ color:var(--fr-accent); text-decoration:underline; }
+
+/* Línea inferior */
+.dd-footer__bottom{
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:10px 18px 16px;
+  display:flex; justify-content:center;
+  color:var(--fr-muted);
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce){ .dd-footer__panel{ transition:none; } }
+.dd-footer__bar:focus{ outline:none; }
+.dd-footer__bar:focus-visible{ box-shadow:0 0 0 3px rgba(210,168,79,.45) inset; }
+
+/* === Utilidad para que el contenido NO quede tapado por la barra === */
+.dds-has-fixed-footer{
+  padding-bottom: var(--fr-h-collapsed);
+}

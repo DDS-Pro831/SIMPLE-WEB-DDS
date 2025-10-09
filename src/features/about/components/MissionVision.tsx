@@ -1,5 +1,9 @@
+// Ubicación: src/features/about/components/MissionVision.tsx
+// Propósito: Bloque de “Misión y Visión” (con su propio <section> y estilos).
+// Nota: Ajusté el import del CSS a la nueva ruta en /features/about/styles.
+
 import React from "react";
-import "./mission-vision.css";
+import "../styles/mission-vision.css";
 
 const MissionVision: React.FC = () => {
   return (
@@ -7,7 +11,7 @@ const MissionVision: React.FC = () => {
       {/* patrón de puntos decorativo */}
       <div className="dd-mv-bg" aria-hidden="true" />
 
-      <div className="dd-mv-grid">
+      <div className="dd-mv-grid" role="group" aria-label="Misión y Visión">
         <article className="dd-mv-card" role="region" aria-labelledby="mv-m-title">
           <h2 id="mv-m-title" className="dd-mv-title">Misión</h2>
           <p>
