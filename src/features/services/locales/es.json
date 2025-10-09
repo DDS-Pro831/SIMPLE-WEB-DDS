@@ -1,0 +1,28 @@
+{
+  "pageTitle": "Servicios",
+  "aria": {
+    "page": "Página de servicios",
+    "offerSection": "Sección de ofertas y servicios"
+  },
+  "offerTitle": "¿Qué ofrecemos?",
+  "offer1": {
+    "title": "Inteligencia de negocios (BI)",
+    "text": "Desarrollo de dashboards interactivos y reportes automatizados para facilitar decisiones basadas en datos reales."
+  },
+  "offer2": {
+    "title": "Automatización de procesos (low-code)",
+    "text": "Implementación de flujos automatizados que eliminan tareas repetitivas, mejoran la trazabilidad y reducen errores operativos."
+  },
+  "offer3": {
+    "title": "Desarrollo de soluciones web personalizadas",
+    "text": "Aplicaciones web internas adaptadas a necesidades específicas (control de tareas, CRM, gestión operativa, etc.)."
+  },
+  "offer4": {
+    "title": "Diagnóstico de madurez tecnológica",
+    "text": "Evaluación del estado digital y hoja de ruta para digitalización, automatización y escalabilidad."
+  },
+  "offer5": {
+    "title": "Capacitación y soporte",
+    "text": "Formación práctica en herramientas provistas y acompañamiento técnico para garantizar adopción y evolución."
+  }
+}

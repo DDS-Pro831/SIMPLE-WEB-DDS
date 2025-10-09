@@ -1,0 +1,87 @@
+/* ====== Layout general (EN ... [pill] ... ES) ====== */
+.langwrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.langwrap__side {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #6b7280;
+  user-select: none;
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* ====== Switch “pill” pequeño (50% del tamaño anterior) ====== */
+.langpill {
+  --w: 90px;       /* 180 → 90  */
+  --h: 38px;       /* 76  → 38  */
+  --pad: 3px;
+  --bw: 2px;
+  --knob: calc(var(--h) - var(--pad) * 2);
+
+  position: relative;
+  display: inline-block;
+  width: var(--w);
+  height: var(--h);
+  border-radius: 9999px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% auto; /* evita deformación vertical */
+  border: var(--bw) solid #2f2f2f;
+  box-shadow:
+    0 4px 6px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    inset 0 -1px 3px rgba(0,0,0,0.18);
+  cursor: pointer;
+  transition: background-position 300ms ease, filter 200ms ease;
+  overflow: hidden;
+}
+
+.langpill:hover {
+  filter: brightness(1.05) saturate(1.05);
+}
+
+/* ====== Knob ====== */
+.langpill__knob {
+  position: absolute;
+  top: 50%;
+  left: var(--pad);
+  transform: translate(0, -50%);
+  background: #ffffff;
+  border-radius: 9999px;
+  width: var(--knob);
+  height: var(--knob);
+  border: var(--bw) solid #2f2f2f;
+  box-shadow:
+    0 3px 6px rgba(0,0,0,0.25),
+    inset 0 1px 2px rgba(255,255,255,0.9),
+    inset 0 -1px 3px rgba(0,0,0,0.15);
+  transition: transform 300ms ease;
+}
+
+/* Posición knob a la derecha cuando ES activo */
+.langpill.is-es .langpill__knob {
+  transform: translate(
+      calc(var(--w) - var(--knob) - var(--pad) - var(--bw)),
+      -50%
+  );
+}
+
+/* ====== Accesibilidad ====== */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

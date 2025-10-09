@@ -1,37 +1,51 @@
 // Ubicación: src/layout/navbar/Navbar.tsx
-// Propósito: Navbar con navegación por rutas (React Router v6), estado activo accesible
-// y menú móvil colapsable. Mantiene tus clases y estilos existentes.
+// Propósito: Navbar accesible con i18n (namespace "navbar") y switcher compacto.
+// Estilos: ./navbar.css
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import "./navbar.css";
+import LanguageSwitcher from "@/core/components/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const { t } = useTranslation("navbar");
 
-  // Cerrar menú móvil cuando cambia la ruta
-  if (open && typeof window !== "undefined") {
-    // simple guard: si cambió pathname tras un click, cierra
-    // (evita useEffect para mantenerlo minimal)
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    pathname; // lectura para gatillar render
-  }
+  useEffect(() => {
+    if (open) setOpen(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
-  const closeMenu = () => setOpen(false);
+  // Definición de enlaces (evita duplicación y facilita i18n)
+  const links = useMemo(
+    () => [
+      { to: "/sobre-nosotros", label: t("links.about") },
+      { to: "/servicios",      label: t("links.services") },
+      { to: "/clientes",       label: t("links.clients") },
+      { to: "/equipo",         label: t("links.team") },
+    ],
+    [t]
+  );
 
   return (
-    <header className="dd-header" role="banner">
+    <header className="dd-header" role="banner" aria-label={t("aria.brand")}>
       <div className="dd-container">
         {/* Marca / Logo */}
-        <Link className="dd-brand" to="/" aria-label="Data Driven Solutions" onClick={closeMenu}>
-          <img src="/logo.png" alt="Data Driven Solutions" height={60} />
+        <Link className="dd-brand" to="/" aria-label={t("aria.brand")}>
+          <img src="/logo.png" alt={t("aria.brand")} height={48} />
         </Link>
+
+        {/* Idioma (desktop, lado izquierdo de los links) */}
+        <div className="hidden md:block ml-3">
+          <LanguageSwitcher compact />
+        </div>
 
         {/* Botón hamburguesa (móvil) */}
         <button
           className="dd-burger"
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          aria-label={open ? t("aria.closeMenu") : t("aria.openMenu")}
           aria-expanded={open}
           aria-controls="primary-nav"
           onClick={() => setOpen(!open)}
@@ -45,30 +59,28 @@ const Navbar: React.FC = () => {
         <nav
           id="primary-nav"
           className={`dd-nav ${open ? "open" : ""}`}
-          aria-label="Principal"
+          role="navigation"
+          aria-label={t("aria.primary")}
           onClick={(e) => {
             const target = e.target as HTMLElement;
-            if (target.tagName === "A") closeMenu();
+            if (target.tagName === "A") setOpen(false);
           }}
         >
-          <NavLink to="/sobre-nosotros" className={({ isActive }) => (isActive ? "active" : undefined)}>
-            Sobre Nosotros
+          {links.map((lnk) => (
+            <NavLink key={lnk.to} to={lnk.to} className={({ isActive }) => (isActive ? "active" : undefined)}>
+              {lnk.label}
+            </NavLink>
+          ))}
+
+          {/* CTA Contacto al final */}
+          <NavLink to="/contacto" className={({ isActive }) => `dd-btn ${isActive ? "active" : ""}`}>
+            {t("links.contact")}
           </NavLink>
-          <NavLink to="/servicios" className={({ isActive }) => (isActive ? "active" : undefined)}>
-            Servicios
-          </NavLink>
-          <NavLink to="/clientes" className={({ isActive }) => (isActive ? "active" : undefined)}>
-            Clientes
-          </NavLink>
-          <NavLink to="/equipo" className={({ isActive }) => (isActive ? "active" : undefined)}>
-            Equipo
-          </NavLink>
-          <NavLink
-            to="/contacto"
-            className={({ isActive }) => `dd-btn ${isActive ? "active" : ""}`}
-          >
-            Contacto
-          </NavLink>
+
+          {/* Idioma (móvil) */}
+          <div className="md:hidden mt-4">
+            <LanguageSwitcher compact className="w-full justify-center" />
+          </div>
         </nav>
       </div>
     </header>

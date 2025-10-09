@@ -1,0 +1,15 @@
+{
+  "links": {
+    "about": "Sobre Nosotros",
+    "services": "Servicios",
+    "clients": "Clientes",
+    "team": "Equipo",
+    "contact": "Contacto"
+  },
+  "aria": {
+    "brand": "Data Driven Solutions",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "primary": "Navegación principal"
+  }
+}

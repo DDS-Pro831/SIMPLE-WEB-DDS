@@ -1,9 +1,10 @@
 // Ubicación: src/features/contact/components/ContactSection.tsx
-// Propósito: Sección “Contacto” reusable dentro de la página Contact.
+// Propósito: Sección “Contacto” con i18n (namespace "contact").
 // Estilos: ../styles/contact.css
 
 import React from "react";
 import "../styles/contact.css";
+import { useTranslation } from "react-i18next";
 
 const PhoneIcon = () => (
   <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2">
@@ -41,16 +42,26 @@ const items = [
 ];
 
 const ContactSection: React.FC = () => {
+  const { t } = useTranslation("contact");
+
   return (
-    <section className="dd-contact" id="contacto" aria-labelledby="dd-contact-title">
+    <section
+      className="dd-contact"
+      id="contacto"
+      role="region"
+      aria-labelledby="dd-contact-title"
+      aria-label={t("aria.section")}
+    >
       <div className="dd-contact__container">
         <div className="dd-contact__left">
-          <h2 id="dd-contact-title">Contacto</h2>
+          <h2 id="dd-contact-title">{t("title")}</h2>
           <div className="dd-contact__brand">
             <img
               src="/logo-white.png"
-              alt="Data Driven Solutions"
+              alt={t("aria.brand")}
               className="dd-contact__logo"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
@@ -61,11 +72,11 @@ const ContactSection: React.FC = () => {
               <span className="dd-contact__icon">{it.icon}</span>
               {it.href ? (
                 <a
-                    href={it.href}
-                    target={it.href.startsWith("http") ? "_blank" : undefined}
-                    rel={it.href.startsWith("http") ? "noreferrer" : undefined}
-                    aria-label={it.label}
-                    className="dd-contact__link"
+                  href={it.href}
+                  target={it.href.startsWith("http") ? "_blank" : undefined}
+                  rel={it.href.startsWith("http") ? "noreferrer" : undefined}
+                  aria-label={it.label}
+                  className="dd-contact__link"
                 >
                   {it.label}
                 </a>

@@ -1,0 +1,22 @@
+{
+  "title": "¿Quiénes somos?",
+  "p1": "En Data Driven Solutions ayudamos a las organizaciones a convertir sus datos en decisiones inteligentes.",
+  "p2": "Somos una consultora tecnológica especializada en automatización de procesos, inteligencia de negocios y desarrollo de soluciones digitales personalizadas.",
+  "p3": "Trabajamos de forma remota desde Bolivia con clientes en toda Norteamérica, Latinoamérica y el Caribe.",
+  "shortBlock": "<strong>Nuestro enfoque combina herramientas accesibles</strong> con un alto impacto operativo, permitiendo a nuestros clientes optimizar recursos, escalar operaciones y mejorar su rentabilidad.",
+  "teamImageAlt": "Equipo de trabajo en reunión",
+  "mv": {
+    "aria": {
+      "section": "Sección de Misión y Visión",
+      "group": "Bloque que contiene Misión y Visión"
+    },
+    "mission": {
+      "title": "Misión",
+      "text": "Empoderar a organizaciones para tomar decisiones basadas en datos mediante soluciones tecnológicas accesibles, personalizadas y orientadas a resultados. Enfocados en transformar procesos, visibilizar información crítica y automatizar tareas clave, generando impactos reales en la eficiencia operativa, la agilidad estratégica y la rentabilidad de nuestros clientes."
+    },
+    "vision": {
+      "title": "Visión",
+      "text": "Ser la consultora tecnológica de referencia en Latinoamérica para organizaciones que buscan escalar, optimizar y transformar su operación sin depender de soluciones complejas ni costosas. Aspiramos a democratizar el acceso a herramientas inteligentes, ágiles y efectivas que permitan competir en cualquier entorno, con decisiones mejor fundamentadas."
+    }
+  }
+}

@@ -1,22 +1,31 @@
 // Ubicación: src/features/services/components/OffersSection.tsx
-// Propósito: Sección “¿Qué ofrecemos?” (servicios). Reutilizable dentro de ServicesPage.
-// Estilos: ../styles/services.css (antes offers.css)
+// Propósito: Sección “¿Qué ofrecemos?” con i18n (namespace "services").
+// Estilos: ../styles/services.css
 
 import React from "react";
 import "../styles/services.css";
+import { useTranslation } from "react-i18next";
 
 const OffersSection: React.FC = () => {
+  const { t } = useTranslation("services");
+
   return (
-    <section className="dd-offer" id="ofrecemos" aria-labelledby="offer-title">
+    <section
+      className="dd-offer"
+      id="ofrecemos"
+      role="region"
+      aria-labelledby="offer-title"
+      aria-label={t("aria.offerSection")}
+    >
       <div className="dd-offer-grid">
         <h2 id="offer-title" className="dd-offer-title">
-          ¿Qué ofrecemos?
+          {t("offerTitle")}
         </h2>
 
-        {/* Teléfono / dashboard */}
+        {/* Teléfono / dashboard (decorativo) */}
         <figure className="dd-offer-phone" aria-hidden="true">
           <img
-            src="/offers-cellphone.png" /* cámbialo por la ruta en /public */
+            src="/offers-cellphone.png" /* cámbialo por la ruta en /public si usas otra */
             alt=""
             loading="lazy"
             decoding="async"
@@ -27,48 +36,32 @@ const OffersSection: React.FC = () => {
         <ol className="dd-offer-list">
           <li>
             <div className="dd-offer-item">
-              <h3>Inteligencia de negocios (BI)</h3>
-              <p>
-                Desarrollo de dashboards interactivos y reportes automatizados
-                para facilitar decisiones basadas en datos reales.
-              </p>
+              <h3>{t("offer1.title")}</h3>
+              <p>{t("offer1.text")}</p>
             </div>
           </li>
           <li>
             <div className="dd-offer-item">
-              <h3>Automatización de procesos (low-code)</h3>
-              <p>
-                Implementación de flujos automatizados que eliminan tareas
-                repetitivas, mejoran la trazabilidad y reducen errores
-                operativos.
-              </p>
+              <h3>{t("offer2.title")}</h3>
+              <p>{t("offer2.text")}</p>
             </div>
           </li>
           <li>
             <div className="dd-offer-item">
-              <h3>Desarrollo de soluciones web personalizadas</h3>
-              <p>
-                Aplicaciones web internas adaptadas a necesidades específicas
-                (control de tareas, CRM, gestión operativa, etc.).
-              </p>
+              <h3>{t("offer3.title")}</h3>
+              <p>{t("offer3.text")}</p>
             </div>
           </li>
           <li>
             <div className="dd-offer-item">
-              <h3>Diagnóstico de madurez tecnológica</h3>
-              <p>
-                Evaluación del estado digital y hoja de ruta para
-                digitalización, automatización y escalabilidad.
-              </p>
+              <h3>{t("offer4.title")}</h3>
+              <p>{t("offer4.text")}</p>
             </div>
           </li>
           <li>
             <div className="dd-offer-item">
-              <h3>Capacitación y soporte</h3>
-              <p>
-                Formación práctica en herramientas provistas y acompañamiento
-                técnico para garantizar adopción y evolución.
-              </p>
+              <h3>{t("offer5.title")}</h3>
+              <p>{t("offer5.text")}</p>
             </div>
           </li>
         </ol>

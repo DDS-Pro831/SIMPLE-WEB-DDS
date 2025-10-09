@@ -1,0 +1,21 @@
+{
+  "labels": {
+    "contacto": "Contacto"
+  },
+  "brand": {
+    "name": "Data Driven Solutions",
+    "tagline": "Transformamos tus datos en decisiones inteligentes."
+  },
+  "items": {
+    "whatsapp_bo_aria": "WhatsApp Bolivia (abre el chat en una nueva pestaña)",
+    "whatsapp_cr_aria": "WhatsApp Costa Rica (abre el chat en una nueva pestaña)",
+    "email_aria": "Enviarnos un correo",
+    "instagram_aria": "Abrir nuestro perfil de Instagram",
+    "linkedin_aria": "Abrir nuestra página de LinkedIn"
+  },
+  "aria": {
+    "brand": "Data Driven Solutions",
+    "toggle": "Mostrar u ocultar el panel de contacto",
+    "content": "Información de contacto del pie de página"
+  }
+}

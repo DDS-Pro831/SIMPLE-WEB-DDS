@@ -1,0 +1,22 @@
+{
+  "title": "Who are we?",
+  "p1": "At Data Driven Solutions, we help organizations turn their data into smart decisions.",
+  "p2": "We are a technology consulting firm specialized in process automation, business intelligence, and the development of customized digital solutions.",
+  "p3": "We work remotely from Bolivia with clients across North America, Latin America, and the Caribbean.",
+  "shortBlock": "<strong>Our approach combines accessible tools</strong> with high operational impact, enabling our clients to optimize resources, scale operations, and improve profitability.",
+  "teamImageAlt": "Team meeting in progress",
+  "mv": {
+    "aria": {
+      "section": "Mission and Vision section",
+      "group": "Group containing mission and vision blocks"
+    },
+    "mission": {
+      "title": "Mission",
+      "text": "To empower organizations to make data-driven decisions through accessible, customized, and results-oriented technological solutions. We focus on transforming processes, making critical information visible, and automating key tasks to create real impact on operational efficiency, strategic agility, and profitability."
+    },
+    "vision": {
+      "title": "Vision",
+      "text": "To be the leading technology consulting firm in Latin America for organizations seeking to scale, optimize, and transform their operations without depending on complex or costly solutions. We aspire to democratize access to intelligent, agile, and effective tools that enable competition in any environment with better-informed decisions."
+    }
+  }
+}

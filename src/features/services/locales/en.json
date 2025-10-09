@@ -1,0 +1,28 @@
+{
+  "pageTitle": "Services",
+  "aria": {
+    "page": "Services page",
+    "offerSection": "Offerings and services section"
+  },
+  "offerTitle": "What do we offer?",
+  "offer1": {
+    "title": "Business Intelligence (BI)",
+    "text": "Development of interactive dashboards and automated reports to support data-driven decisions."
+  },
+  "offer2": {
+    "title": "Process Automation (low-code)",
+    "text": "Implementation of automated workflows that remove repetitive tasks, improve traceability, and reduce operational errors."
+  },
+  "offer3": {
+    "title": "Custom Web Solutions",
+    "text": "Internal web applications tailored to specific needs (task control, CRM, operational management, etc.)."
+  },
+  "offer4": {
+    "title": "Technology Maturity Assessment",
+    "text": "Evaluation of the digital landscape and a roadmap for digitization, automation, and scalability."
+  },
+  "offer5": {
+    "title": "Training & Support",
+    "text": "Hands-on training on delivered tools and technical guidance to ensure adoption and growth."
+  }
+}

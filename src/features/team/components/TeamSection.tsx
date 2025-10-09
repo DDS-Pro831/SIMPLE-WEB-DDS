@@ -1,96 +1,60 @@
 // Ubicación: src/features/team/components/TeamSection.tsx
-// Propósito: Sección “Nuestro equipo” reusable dentro de la página Team.
+// Propósito: Sección “Nuestro equipo” con i18n (namespace "team").
 // Estilos: ../styles/team.css
-// Nota: coloca las fotos en /public (p.ej. /Gabriel-min.jpg) o ajusta los paths.
+// Nota: las fotos viven en /public. Los textos (título, roles, grados) en locales/*
 
 import React from "react";
 import "../styles/team.css";
 import NodeBallTeam from "@/core/components/NodeBallTeam";
+import { useTranslation } from "react-i18next";
 
 type Member = {
-  name: string;
-  role: string;
-  degree: string;
+  id: string;       // clave para i18n (members.<id>.*)
+  name: string;     // nombre propio (no se traduce)
   photo: string;
-  alt?: string;
+  alt?: string;     // alt genérico o específico (puede mantenerse sin traducir)
 };
 
 const MEMBERS: Member[] = [
-  {
-    name: "Gabriel Alejandro Vera Pinto",
-    role: "Director de Tecnología y Operaciones",
-    degree: "Ing. de Sistemas MSc MBA",
-    photo: "/Gabriel-min.jpg",
-    alt: "Gabriel Vera",
-  },
-  {
-    name: "Daniela Holguín Michel",
-    role: "Directora de Estrategia y Marketing",
-    degree: "Psicóloga MSc MBA",
-    photo: "/Daniela.png",
-    alt: "Daniela Holguín",
-  },
-  {
-    name: "Santiago Vega",
-    role: "Consultor Externo de Desarrollo Estratégico",
-    degree: "Administrador de Empresas; Ing. Industrial MSc",
-    photo: "/Santiago-min.png",
-    alt: "Santiago Vega",
-  },
-  {
-    name: "Emanuel Gonzales Quiroz",
-    role: "Full Stack Developer",
-    degree: "Ing. de Sistemas",
-    photo: "/Emanuel-min.jpg",
-    alt: "Emanuel Gonzales",
-  },
-  {
-    name: "Kevin Uruchi Coarite",
-    role: "Full Stack Developer",
-    degree: "Ing. de Sistemas",
-    photo: "/Kiwi-min.png",
-    alt: "Kevin Uruchi",
-  },
-  {
-    name: "Edely Tito Laredo",
-    role: "Business Analyst",
-    degree: "Ing. de Sistemas",
-    photo: "/Edely-min.jpg",
-    alt: "Edely Tito",
-  },
-  {
-    name: "Gerardo Morales López",
-    role: "Business Analyst",
-    degree: "Lic. en Adm. de Empresas",
-    photo: "/Gerardo-min.jpg",
-    alt: "Gerardo Morales",
-  },
+  { id: "gabriel",  name: "Gabriel Alejandro Vera Pinto", photo: "/Gabriel-min.jpg", alt: "Gabriel Vera" },
+  { id: "daniela",  name: "Daniela Holguín Michel",        photo: "/Daniela.png",     alt: "Daniela Holguín" },
+  { id: "santiago", name: "Santiago Vega",                 photo: "/Santiago-min.png",alt: "Santiago Vega" },
+  { id: "emanuel",  name: "Emanuel Gonzales Quiroz",       photo: "/Emanuel-min.jpg", alt: "Emanuel Gonzales" },
+  { id: "kevin",    name: "Kevin Uruchi Coarite",          photo: "/Kiwi-min.png",    alt: "Kevin Uruchi" },
+  { id: "edely",    name: "Edely Tito Laredo",             photo: "/Edely-min.jpg",   alt: "Edely Tito" },
+  { id: "gerardo",  name: "Gerardo Morales López",         photo: "/Gerardo-min.jpg", alt: "Gerardo Morales" }
 ];
 
 const TeamSection: React.FC = () => {
+  const { t } = useTranslation("team");
+
   return (
-    <section className="dd-team" id="equipo" aria-labelledby="team-title">
+    <section className="dd-team" id="equipo" aria-labelledby="team-title" aria-label={t("aria.section")}>
       <NodeBallTeam />
       <div className="dd-team-bg" aria-hidden="true" />
       <div className="dd-team-inner">
-        <h2 id="team-title" className="dd-team-title">Nuestro equipo</h2>
+        <h2 id="team-title" className="dd-team-title">{t("title")}</h2>
+
         <ul className="dd-team-grid">
           {MEMBERS.map((m) => (
-            <li key={m.name} className="dd-team-card">
+            <li key={m.id} className="dd-team-card">
               <figure className="dd-team-photo">
                 <img
                   src={m.photo}
-                  alt={m.alt ?? `Foto de ${m.name}`}
+                  alt={m.alt ?? t("aria.photoAlt", { name: m.name })}
                   loading="lazy"
                   decoding="async"
                 />
               </figure>
 
-              <div className="dd-team-role">{m.role}</div>
+              {/* Rol traducido */}
+              <div className="dd-team-role">{t(`members.${m.id}.role`)}</div>
 
               <div className="dd-team-person">
+                {/* Nombre propio sin traducir */}
                 <h3 className="dd-team-name">{m.name}</h3>
-                <p className="dd-team-degree">{m.degree}</p>
+                {/* Grado / formación traducida */}
+                <p className="dd-team-degree">{t(`members.${m.id}.degree`)}</p>
               </div>
             </li>
           ))}

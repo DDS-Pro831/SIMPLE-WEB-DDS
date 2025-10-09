@@ -1,66 +1,41 @@
 :root{
-  --dd-bg:#f7f8fb;                 /* barra clara */
-  --dd-text:#1f2a44;               /* azul marino */
-  --dd-muted:#5b6780;
-  --dd-accent:#1e2b45;             /* botón contacto */
-  --dd-accent-press:#152034;
-  --dd-radius:999px;
-  --dd-shadow:0 2px 12px rgba(14,20,40,.12);
-  --dd-ring:0 0 0 3px rgba(30,43,69,.18);
-  --dd-max:1120px;
+  --dd-bg:#f7f8fb; --dd-text:#1f2a44; --dd-muted:#5b6780;
+  --dd-accent:#1e2b45; --dd-accent-press:#152034;
+  --dd-radius:999px; --dd-shadow:0 2px 12px rgba(14,20,40,.12);
+  --dd-ring:0 0 0 3px rgba(30,43,69,.18); --dd-max:1120px;
 }
 
-/* wrapper */
 .dd-header{
   position:sticky; top:0; z-index:50;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.85)),
-    var(--dd-bg);
+  background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.85)), var(--dd-bg);
   backdrop-filter:saturate(135%) blur(6px);
   box-shadow:var(--dd-shadow);
 }
 
-/* layout */
 .dd-container{
-  max-width:var(--dd-max);
-  margin:0 auto; padding:10px 16px;
-  display:flex; align-items:center; justify-content:space-between; gap:16px;
-  color:var(--dd-text);
+  max-width:var(--dd-max); margin:0 auto; padding:8px 16px;
+  display:flex; align-items:center; gap:12px; color:var(--dd-text);
 }
 
-.dd-brand{display:inline-flex; align-items:center; gap:10px}
-.dd-brand img{
-  display:block;
-  height:48px;   /* ajusta 40–56px según tu header */
-  width:auto;
-}
+.dd-brand{ display:inline-flex; align-items:center; gap:10px }
+.dd-brand img{ display:block; height:44px; width:auto }
 
-/* nav desktop */
 .dd-nav{
-  display:flex; align-items:center; gap:28px; font-weight:600
+  display:flex; align-items:center; gap:24px; font-weight:600; margin-left:auto;
 }
-.dd-nav a{
-  color:var(--dd-muted); text-decoration:none; letter-spacing:.2px
-}
+.dd-nav a{ color:var(--dd-muted); text-decoration:none; letter-spacing:.2px }
 .dd-nav a:hover{ color:var(--dd-text) }
 
-/* Estado activo (NavLink) */
 .dd-nav a.active,
 .dd-nav a[aria-current="page"]{
-  color:var(--dd-text);
-  text-decoration:none;
-  position:relative;
+  color:var(--dd-text); position:relative;
 }
 .dd-nav a.active::after,
 .dd-nav a[aria-current="page"]::after{
-  content:"";
-  position:absolute; left:0; right:0; bottom:-6px; height:2px;
-  background:var(--dd-text);
-  border-radius:2px;
-  transform-origin:left;
+  content:""; position:absolute; left:0; right:0; bottom:-6px; height:2px;
+  background:var(--dd-text); border-radius:2px;
 }
 
-/* CTA Contacto */
 .dd-btn{
   color:#fff !important; background:var(--dd-accent);
   padding:8px 14px; border-radius:var(--dd-radius);
@@ -69,27 +44,21 @@
 .dd-btn:active{ transform:translateY(1px); background:var(--dd-accent-press) }
 .dd-btn:focus-visible{ outline:none; box-shadow:var(--dd-ring) }
 
-/* burger button (mobile) */
-.dd-burger{
-  display:none; width:40px; height:36px; border:0; background:transparent; padding:6px;
-}
-.dd-burger span{display:block; height:2px; background:var(--dd-text); margin:6px 0; border-radius:2px}
+.dd-burger{ display:none; width:40px; height:36px; border:0; background:transparent; padding:6px }
+.dd-burger span{ display:block; height:2px; background:var(--dd-text); margin:6px 0; border-radius:2px }
 
-/* responsive */
-@media (max-width: 900px){
+@media (max-width:900px){
   .dd-burger{ display:block }
   .dd-nav{
     position:absolute; top:56px; right:12px;
     display:none; flex-direction:column; gap:10px;
     background:#fff; color:var(--dd-text);
     padding:12px; border-radius:12px; box-shadow:var(--dd-shadow);
-    border:1px solid rgba(15,21,38,.06);
-    min-width:220px;
+    border:1px solid rgba(15,21,38,.06); min-width:220px;
   }
   .dd-nav.open{ display:flex }
 }
 
-/* Accesibilidad: foco visible */
 .dd-nav a:focus-visible,
 .dd-burger:focus-visible,
 .dd-brand:focus-visible{

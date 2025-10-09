@@ -1,0 +1,39 @@
+{
+  "pageTitle": "Team",
+  "title": "Our Team",
+  "aria": {
+    "page": "Team page",
+    "section": "Team section",
+    "photoAlt": "Photo of {{name}}"
+  },
+  "members": {
+    "gabriel": {
+      "role": "Director of Technology & Operations",
+      "degree": "Systems Engineer, MSc, MBA"
+    },
+    "daniela": {
+      "role": "Director of Strategy & Marketing",
+      "degree": "Psychologist, MSc, MBA"
+    },
+    "santiago": {
+      "role": "External Consultant for Strategic Development",
+      "degree": "Business Administrator; Industrial Engineer, MSc"
+    },
+    "emanuel": {
+      "role": "Full Stack Developer",
+      "degree": "Systems Engineer"
+    },
+    "kevin": {
+      "role": "Full Stack Developer",
+      "degree": "Systems Engineer"
+    },
+    "edely": {
+      "role": "Business Analyst",
+      "degree": "Systems Engineer"
+    },
+    "gerardo": {
+      "role": "Business Analyst",
+      "degree": "B.A. in Business Administration"
+    }
+  }
+}

@@ -1,12 +1,12 @@
 // Ubicación: src/layout/footer-reveal/FooterReveal.tsx
-// Propósito: Footer “reveal” (colapsado por defecto). Se despliega con hover/focus/tap.
-// Base: reutiliza el contenido y estilo visual del Contact (íconos y enlaces).
-// Accesibilidad: teclado (Enter/Espacio), aria-expanded, prefers-reduced-motion.
+// Propósito: Footer “reveal” (colapsado por defecto) con i18n.
+// Namespace i18n: "footer-reveal" (porque la carpeta se llama footer-reveal)
 
 import { useEffect, useRef, useState } from "react";
 import "./footer-reveal.css";
+import { useTranslation } from "react-i18next";
 
-// ====== Íconos (idénticos a los de Contact) ======
+// ====== Íconos (idénticos a Contact) ======
 const PhoneIcon = () => (
   <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.9.31 1.77.57 2.61a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.47-1.09a2 2 0 0 1 2.11-.45c.84.26 1.71.45 2.61.57A2 2 0 0 1 22 16.92z"/>
@@ -31,16 +31,19 @@ const LinkedinIcon = () => (
   </svg>
 );
 
-// ====== Data (idéntico a Contact) ======
-const items = [
-  { label: "(591) 72031600", href: "https://wa.me/59172031600", icon: <PhoneIcon /> },
-  { label: "(506) 6187 2840", href: "https://wa.me/50661872840", icon: <PhoneIcon /> },
-  { label: "info@datadrivensolutions.dev", href: "mailto:info@datadrivensolutions.dev", icon: <MailIcon /> },
-  { label: "@dds-dev", href: "https://instagram.com/dds-dev", icon: <IgIcon /> },
-  { label: "linkedin.com/company/dds-dev", href: "https://www.linkedin.com/company/dds-dev", icon: <LinkedinIcon /> }
-];
-
 export default function FooterReveal() {
+  // 👇 namespace correcto según la carpeta
+  const { t } = useTranslation("footer-reveal");
+
+  // ====== Data traducible ======
+  const items = [
+    { label: "(591) 72031600", aria: t("items.whatsapp_bo_aria"), href: "https://wa.me/59172031600", icon: <PhoneIcon /> },
+    { label: "(506) 6187 2840", aria: t("items.whatsapp_cr_aria"), href: "https://wa.me/50661872840", icon: <PhoneIcon /> },
+    { label: "info@datadrivensolutions.dev", aria: t("items.email_aria"), href: "mailto:info@datadrivensolutions.dev", icon: <MailIcon /> },
+    { label: "@dds-dev", aria: t("items.instagram_aria"), href: "https://instagram.com/dds-dev", icon: <IgIcon /> },
+    { label: "linkedin.com/company/dds-dev", aria: t("items.linkedin_aria"), href: "https://www.linkedin.com/company/dds-dev", icon: <LinkedinIcon /> }
+  ];
+
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -71,41 +74,39 @@ export default function FooterReveal() {
         tabIndex={0}
         aria-expanded={open}
         aria-controls="dd-footer-panel"
+        aria-label={t("aria.toggle")}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen(v => !v); }
         }}
         onClick={() => setOpen(v => !v)}
       >
         <div className="dd-footer__brand">
-          {/* usa un isotipo pequeño si lo tienes */}
           <img src="/logo-iso-white.png" alt="" aria-hidden="true" />
-          <span>Contacto</span>
+          <span>{t("labels.contacto")}</span>
         </div>
-        <div className="dd-footer__peek">
+        <div className="dd-footer__peek" aria-hidden="true">
           <PhoneIcon /><MailIcon /><LinkedinIcon />
         </div>
       </div>
 
       {/* Panel expandido */}
       <div id="dd-footer-panel" className="dd-footer__panel" aria-hidden={!open}>
-        <div className="dd-footer__content">
+        <div className="dd-footer__content" role="region" aria-label={t("aria.content")}>
           <div className="dd-footer__left">
-            <img className="dd-footer__logo" src="/logo-white.png" alt="Data Driven Solutions" />
-            <p className="dd-footer__claim">Data Driven Solutions</p>
-            <p className="dd-footer__subclaim">
-              Transformamos tus datos en decisiones inteligentes.
-            </p>
+            <img className="dd-footer__logo" src="/logo-white.png" alt={t("aria.brand")} />
+            <p className="dd-footer__claim">{t("brand.name")}</p>
+            <p className="dd-footer__subclaim">{t("brand.tagline")}</p>
           </div>
 
           <ul className="dd-footer__list">
             {items.map((it, i) => (
               <li key={i} className="dd-footer__item">
-                <span className="dd-footer__icon">{it.icon}</span>
+                <span className="dd-footer__icon" aria-hidden="true">{it.icon}</span>
                 <a
                   href={it.href}
                   target={it.href.startsWith("http") ? "_blank" : undefined}
                   rel={it.href.startsWith("http") ? "noreferrer" : undefined}
-                  aria-label={it.label}
+                  aria-label={it.aria}
                   className="dd-footer__link"
                 >
                   {it.label}
@@ -115,7 +116,7 @@ export default function FooterReveal() {
           </ul>
         </div>
         <div className="dd-footer__bottom">
-          <small>© {new Date().getFullYear()} Data Driven Solutions</small>
+          <small>© {new Date().getFullYear()} {t("brand.name")}</small>
         </div>
       </div>
     </div>

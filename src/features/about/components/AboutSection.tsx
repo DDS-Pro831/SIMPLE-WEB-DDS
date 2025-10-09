@@ -1,12 +1,15 @@
 // Ubicación: src/features/about/components/AboutSection.tsx
-// Propósito: Componente “Sobre nosotros” (antes About.tsx) reusable dentro de la página About.
-// Depende de: ../styles/about.css y del NodeBall global.
+// Propósito: Componente “Sobre nosotros” i18n-ready, usando el namespace de módulo: "about".
+// Depende de: ../styles/about.css, NodeBall, y archivos JSON de locales en src/features/about/locales/*
 
 import React from "react";
 import "../styles/about.css";
 import NodeBall from "@/core/components/NodeBall";
+import { useTranslation, Trans } from "react-i18next";
 
 const AboutSection: React.FC = () => {
+  const { t } = useTranslation("about"); // ← namespace por módulo
+
   return (
     <section className="dd-about" id="about" aria-labelledby="about-title">
       {/* Fondo decorativo: no participa del grid */}
@@ -19,7 +22,7 @@ const AboutSection: React.FC = () => {
         <div className="dd-about-art" aria-hidden="true">
           <img
             src="https://media-public.canva.com/eyoZc/MAFdvgeyoZc/1/s.jpg"
-            alt=""
+            alt="" /* Decorativa */
             loading="lazy"
             decoding="async"
           />
@@ -27,30 +30,22 @@ const AboutSection: React.FC = () => {
 
         {/* 2) Texto principal */}
         <div className="dd-about-content">
-          <h2 id="about-title">¿Quiénes somos?</h2>
+          <h2 id="about-title">{t("title")}</h2>
           <div className="dd-about-text">
-            <p>
-              En Data Driven Solutions ayudamos a las organizaciones a convertir
-              sus datos en decisiones inteligentes.
-            </p>
-            <p>
-              Somos una consultora tecnológica especializada en automatización
-              de procesos, inteligencia de negocios y desarrollo de soluciones
-              digitales personalizadas.
-            </p>
-            <p>
-              Trabajamos de forma remota desde Bolivia con clientes en toda
-              Norteamérica, Latinoamérica y el Caribe.
-            </p>
+            <p>{t("p1")}</p>
+            <p>{t("p2")}</p>
+            <p>{t("p3")}</p>
           </div>
         </div>
 
-        {/* 3) Texto corto */}
+        {/* 3) Texto corto (con <strong>) */}
         <div className="dd-about2-text">
           <p>
-            <strong>Nuestro enfoque combina herramientas accesibles</strong> con
-            un alto impacto operativo, permitiendo a nuestros clientes optimizar
-            recursos, escalar operaciones y mejorar su rentabilidad.
+            <Trans
+              i18nKey="shortBlock"
+              ns="about"
+              components={{ strong: <strong /> }}
+            />
           </p>
         </div>
 
@@ -58,7 +53,7 @@ const AboutSection: React.FC = () => {
         <figure className="dd-about2-image">
           <img
             src="https://media-public.canva.com/4hqHU/MAFdvo4hqHU/1/s.jpg"
-            alt="Equipo de trabajo en reunión"
+            alt={t("teamImageAlt")}
             loading="lazy"
             decoding="async"
           />
