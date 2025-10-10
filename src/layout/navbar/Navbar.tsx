@@ -1,6 +1,5 @@
 // Ubicación: src/layout/navbar/Navbar.tsx
-// Propósito: Navbar accesible con i18n (namespace "navbar") y switcher compacto.
-// Estilos: ./navbar.css
+// Propósito: Navbar accesible con i18n (namespace "navbar") y switcher fijo arriba a la derecha.
 
 import { useEffect, useMemo, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
@@ -15,32 +14,30 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     if (open) setOpen(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname, open]);
 
-  // Definición de enlaces (evita duplicación y facilita i18n)
   const links = useMemo(
     () => [
       { to: "/sobre-nosotros", label: t("links.about") },
-      { to: "/servicios",      label: t("links.services") },
-      { to: "/clientes",       label: t("links.clients") },
-      { to: "/equipo",         label: t("links.team") },
+      { to: "/servicios", label: t("links.services") },
+      { to: "/clientes", label: t("links.clients") },
+      { to: "/equipo", label: t("links.team") },
     ],
     [t]
   );
 
   return (
     <header className="dd-header" role="banner" aria-label={t("aria.brand")}>
+      {/* 🔹 Switch de idioma fijo al borde superior derecho */}
+      <div className="dd-lang-global">
+        <LanguageSwitcher compact />
+      </div>
+
       <div className="dd-container">
         {/* Marca / Logo */}
         <Link className="dd-brand" to="/" aria-label={t("aria.brand")}>
           <img src="/logo.png" alt={t("aria.brand")} height={48} />
         </Link>
-
-        {/* Idioma (desktop, lado izquierdo de los links) */}
-        <div className="hidden md:block ml-3">
-          <LanguageSwitcher compact />
-        </div>
 
         {/* Botón hamburguesa (móvil) */}
         <button
@@ -67,20 +64,22 @@ const Navbar: React.FC = () => {
           }}
         >
           {links.map((lnk) => (
-            <NavLink key={lnk.to} to={lnk.to} className={({ isActive }) => (isActive ? "active" : undefined)}>
+            <NavLink
+              key={lnk.to}
+              to={lnk.to}
+              className={({ isActive }) => (isActive ? "active" : undefined)}
+            >
               {lnk.label}
             </NavLink>
           ))}
 
           {/* CTA Contacto al final */}
-          <NavLink to="/contacto" className={({ isActive }) => `dd-btn ${isActive ? "active" : ""}`}>
+          <NavLink
+            to="/contacto"
+            className={({ isActive }) => `dd-btn ${isActive ? "active" : ""}`}
+          >
             {t("links.contact")}
           </NavLink>
-
-          {/* Idioma (móvil) */}
-          <div className="md:hidden mt-4">
-            <LanguageSwitcher compact className="w-full justify-center" />
-          </div>
         </nav>
       </div>
     </header>

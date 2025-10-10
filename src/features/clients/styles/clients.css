@@ -1,10 +1,23 @@
+/* src/features/clients/styles/clients.css */
+
 .dd-clients {
-  padding: clamp(32px, 6vw, 72px) 16px;
   background: #fff;
+  color: #1f2a44;
+
+  /* 🔹 Ocupa toda la altura visible, pero empieza desde arriba */
+  min-height: 100vh;
+
+  /* 🔹 Sin centrado vertical */
+  display: block;
+
+  /* 🔹 Espaciado superior y lateral normal */
+  padding: clamp(48px, 6vw, 72px) 16px 80px;
 }
+
 
 .dd-clients__container {
   max-width: var(--dd-max, 1100px);
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -12,16 +25,24 @@
   font-size: clamp(1.6rem, 2.5vw, 2rem);
   font-weight: 700;
   color: #2a3553;
-  margin: 0 0 24px 0;
+  margin: 0 0 28px 0;
+
+  /* 🔹 Centra el título */
+  text-align: center;
 }
 
 .dd-clients__grid {
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: clamp(16px, 3vw, 40px);
   margin: 0;
   padding: 0;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: clamp(16px, 3vw, 40px);
+
+  /* 🔹 Centra la grilla dentro del contenedor */
+  place-items: center;
+  justify-items: center;
   align-items: center;
 }
 
@@ -32,11 +53,11 @@
 }
 
 .dd-clients__item img {
-  max-width: 140px;
-  max-height: auto;
-  width: auto;
+  max-width: 160px;
+  width: 100%;
   height: auto;
   object-fit: contain;
+
   filter: grayscale(100%) contrast(95%);
   opacity: 0.85;
   transition: transform 160ms ease, opacity 160ms ease, filter 160ms ease;
@@ -49,18 +70,13 @@
   transform: translateY(-2px);
 }
 
+/* Responsive */
 @media (max-width: 768px) {
-  .dd-clients__title {
-    text-align: left; /* o center si prefieres */
-  }
-  .dd-clients__item img {
-    max-height: 72px;
-  }
+  .dd-clients__title { text-align: center; }
+  .dd-clients__item img { max-width: 120px; }
 }
 
-/* Respeta accesibilidad si el usuario prefiere menos animaciones */
+/* Accesibilidad: sin animaciones si el usuario lo prefiere */
 @media (prefers-reduced-motion: reduce) {
-  .dd-clients__item img {
-    transition: none;
-  }
+  .dd-clients__item img { transition: none; }
 }
