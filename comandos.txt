@@ -1,4 +1,4 @@
 git add .
-git commit -m "correciones 22 03 26, correcionesde el boton en y tamaños"
+git commit -m "correciones 22 03 26, de login"
 git push
 
