@@ -80,6 +80,16 @@ const Navbar: React.FC = () => {
           >
             {t("links.contact")}
           </NavLink>
+
+          {/* 🔹 Login - acceso al sistema */}
+          <a
+            href="https://trevize.tail547b82.ts.net:8443/dds-front/dashboard-sistema"
+            className="dd-btn-login"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t("links.login")}
+          </a>
         </nav>
       </div>
     </header>

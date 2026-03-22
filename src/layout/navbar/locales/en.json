@@ -4,7 +4,8 @@
     "services": "Services",
     "clients": "Clients",
     "team": "Team",
-    "contact": "Contact"
+    "contact": "Contact",
+    "login": "Login"
   },
   "aria": {
     "brand": "Data Driven Solutions",

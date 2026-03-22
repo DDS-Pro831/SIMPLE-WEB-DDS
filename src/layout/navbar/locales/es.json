@@ -4,7 +4,8 @@
     "services": "Servicios",
     "clients": "Clientes",
     "team": "Equipo",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "login": "Iniciar sesión"
   },
   "aria": {
     "brand": "Data Driven Solutions",

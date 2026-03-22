@@ -87,6 +87,32 @@
   border-radius:var(--dd-radius);
   box-shadow:0 1px 0 rgba(0,0,0,.15), inset 0 -1px 0 rgba(255,255,255,.06);
 }
+
+.dd-btn-login {
+  color: var(--dd-accent) !important;
+  background: transparent;
+  padding: 8px 14px;
+  border-radius: var(--dd-radius);
+  border: 2px solid var(--dd-accent);
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: .2px;
+  transition: background .15s, color .15s;
+}
+.dd-btn-login:hover {
+  background: var(--dd-accent);
+  color: #fff !important;
+}
+.dd-btn-login:active {
+  transform: translateY(1px);
+  background: var(--dd-accent-press);
+  color: #fff !important;
+}
+.dd-btn-login:focus-visible {
+  outline: none;
+  box-shadow: var(--dd-ring);
+}
+
 .dd-btn:active{ transform:translateY(1px); background:var(--dd-accent-press) }
 .dd-btn:focus-visible{ outline:none; box-shadow:var(--dd-ring) }
 
