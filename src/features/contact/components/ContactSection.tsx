@@ -1,14 +1,13 @@
-// Ubicación: src/features/contact/components/ContactSection.tsx
-// Propósito: Sección “Contacto” con i18n (namespace "contact").
-// Estilos: ../styles/contact.css
-
-import React from "react";
+import React, { useState, useCallback } from "react";
 import "../styles/contact.css";
 import { useTranslation } from "react-i18next";
 
+const FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSeA4NORlkc9yMbsIrxw2D8WA24Du9U2GWvoymGxXCm5BtOVJQ/viewform";
+
 const PhoneIcon = () => (
   <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.9.31 1.77.57 2.61a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.47-1.09a2 2 0 0 1 2.11-.45c.84.26 1.71.45 2.61.57A2 2 0 0 1 22 16.92z"/>
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.19 12.9 19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.9.31 1.77.57 2.61a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.47-1.09a2 2 0 0 1 2.11-.45c.84.26 1.71.45 2.61.57A2 2 0 0 1 22 16.92z"/>
   </svg>
 );
 
@@ -34,15 +33,25 @@ const LinkedinIcon = () => (
 );
 
 const items = [
-  { label: "(591) 72031600", href: "https://wa.me/59172031600", icon: <PhoneIcon /> },
-  { label: "(506) 6187 2840", href: "https://wa.me/50661872840", icon: <PhoneIcon /> },
-  { label: "info@datadrivensolutions.dev", href: "mailto:info@datadrivensolutions.dev", icon: <MailIcon /> },
-  { label: "@dds-dev", href: "https://instagram.com/dds-dev", icon: <IgIcon /> },
-  { label: "linkedin.com/company/dds-dev", href: "https://www.linkedin.com/company/dds-dev", icon: <LinkedinIcon /> }
+  { label: "(591) 72031600",               href: "https://wa.me/59172031600",                  icon: <PhoneIcon /> },
+  { label: "(506) 6187 2840",              href: "https://wa.me/50661872840",                  icon: <PhoneIcon /> },
+  { label: "info@datadrivensolutions.dev", href: "mailto:info@datadrivensolutions.dev",         icon: <MailIcon /> },
+  { label: "@dds-dev",                     href: "https://instagram.com/dds-dev",              icon: <IgIcon /> },
+  { label: "linkedin.com/company/dds-dev", href: "https://www.linkedin.com/company/dds-dev",  icon: <LinkedinIcon /> },
 ];
 
 const ContactSection: React.FC = () => {
   const { t } = useTranslation("contact");
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleCtaClick = useCallback(() => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      window.open(FORM_URL, "_blank", "noopener,noreferrer");
+      setIsAnimating(false);
+    }, 650);
+  }, [isAnimating]);
 
   return (
     <section
@@ -55,6 +64,7 @@ const ContactSection: React.FC = () => {
       <div className="dd-contact__container">
         <div className="dd-contact__left">
           <h2 id="dd-contact-title">{t("title")}</h2>
+
           <div className="dd-contact__brand">
             <img
               src="/logo-white.png"
@@ -64,6 +74,60 @@ const ContactSection: React.FC = () => {
               decoding="async"
             />
           </div>
+
+          {/* ── CTA ── */}
+          <div className="dd-contact__cta">
+            <div className="dd-contact__cta-wrapper">
+              <button
+                type="button"
+                className="dd-contact__cta-button"
+                aria-label={t("cta.aria")}
+                onClick={handleCtaClick}
+                disabled={isAnimating}
+              >
+                <span className="dd-contact__cta-label">
+                  {t("cta.label")}
+                  <svg
+                    className="dd-contact__cta-arrow"
+                    width="16" height="16" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" strokeWidth="2.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </span>
+              </button>
+
+              {isAnimating && (
+                <span className="dd-contact__cta-overlay" aria-hidden="true">
+                  <span className="dd-contact__cta-ripple" />
+                  <span className="dd-contact__cta-nodes">
+                    {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => {
+                      const rad = (angle * Math.PI) / 180;
+                      return (
+                        <React.Fragment key={angle}>
+                          <span
+                            className="dd-contact__cta-connection"
+                            style={{ "--angle": `${angle}deg` } as React.CSSProperties}
+                          />
+                          <span
+                            className="dd-contact__cta-node"
+                            style={{
+                              "--dx": `${Math.cos(rad) * 52}px`,
+                              "--dy": `${Math.sin(rad) * 52}px`,
+                            } as React.CSSProperties}
+                          />
+                        </React.Fragment>
+                      );
+                    })}
+                  </span>
+                </span>
+              )}
+            </div>
+
+            <p className="dd-contact__cta-subtitle">{t("cta.subtitle")}</p>
+          </div>
+          {/* ── fin CTA ── */}
         </div>
 
         <ul className="dd-contact__list">

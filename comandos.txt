@@ -1,4 +1,4 @@
 git add .
-git commit -m "correciones 22 03 26, de login"
+git commit -m "correciones 22 03 26, formulario"
 git push
 

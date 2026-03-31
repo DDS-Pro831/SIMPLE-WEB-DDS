@@ -1,45 +1,43 @@
-:root{
-  --fr-bg:#1e2b45;
-  --fr-bg-2:#152034;
-  --fr-fg:#eaf1ff;
-  --fr-muted:#b8c2d9;
-  --fr-accent:#d2a84f;
-  --fr-max:1200px;
-  --fr-h-collapsed:56px;  /* altura de la barra compacta */
-  --fr-h-expanded:340px;  /* alto del panel abierto */
-  --fr-shadow:0 -8px 30px rgba(0,0,0,.28);
+:root {
+  --fr-bg: #1e2b45;
+  --fr-bg-2: #152034;
+  --fr-fg: #eaf1ff;
+  --fr-muted: #b8c2d9;
+  --fr-accent: #d2a84f;
+  --fr-max: 1200px;
+  --fr-h-collapsed: 56px;
+  --fr-h-expanded: 420px;   /* ← era 340px, sube para el CTA */
+  --fr-shadow: 0 -8px 30px rgba(0, 0, 0, .28);
 }
 
 /* === Footer SIEMPRE pegado al pie === */
-.dd-footer{
-  position: fixed;   /* <-- antes: sticky */
+.dd-footer {
+  position: fixed;
   left: 0; right: 0; bottom: 0;
   z-index: 40;
   color: var(--fr-fg);
   font-weight: 500;
 }
 
-/* Barra compacta (siempre visible) */
-.dd-footer__bar{
+/* Barra compacta */
+.dd-footer__bar {
   height: var(--fr-h-collapsed);
   background: linear-gradient(180deg, var(--fr-bg-2), #0d1526);
-  display:flex; align-items:center; justify-content:space-between;
-  padding: 0 16px; gap:12px;
-  cursor:pointer; user-select:none;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; gap: 12px;
+  cursor: pointer; user-select: none;
   box-shadow: 0 -1px 0 rgba(255,255,255,.06), 0 -6px 18px rgba(0,0,0,.18);
 }
 
-/* Marca barra */
-.dd-footer__brand{ display:flex; align-items:center; gap:12px; letter-spacing:.2px; }
-.dd-footer__brand img{ height:28px; width:auto; display:block; }  /* icono pequeño */
-.dd-footer__brand span{ opacity:.92; }
+.dd-footer__brand { display: flex; align-items: center; gap: 12px; letter-spacing: .2px; }
+.dd-footer__brand img { height: 28px; width: auto; display: block; }
+.dd-footer__brand span { opacity: .92; }
 
-/* Íconos “peek” */
-.dd-footer__peek{ display:flex; align-items:center; gap:12px; }
-.dd-footer__peek svg{ color:#cbd8ff; opacity:.9; }
+.dd-footer__peek { display: flex; align-items: center; gap: 12px; }
+.dd-footer__peek svg { color: #cbd8ff; opacity: .9; }
 
-/* Panel expandido (overlay) */
-.dd-footer__panel{
+/* Panel expandido */
+.dd-footer__panel {
   height: 0;
   overflow: clip;
   background: var(--fr-bg);
@@ -47,10 +45,10 @@
   transition: height .28s ease, opacity .28s ease;
   opacity: 0;
 }
-.dd-footer.is-open .dd-footer__panel{ height: var(--fr-h-expanded); opacity:1; }
+.dd-footer.is-open .dd-footer__panel { height: var(--fr-h-expanded); opacity: 1; }
 
-/* Contenido del panel */
-.dd-footer__content{
+/* Contenido */
+.dd-footer__content {
   max-width: var(--fr-max);
   margin: 0 auto;
   display: grid;
@@ -58,47 +56,231 @@
   gap: 24px;
   padding: 22px 18px 10px;
 }
-@media (max-width:900px){ .dd-footer__content{ grid-template-columns:1fr; padding:16px 14px; } }
 
-.dd-footer__left{ display:flex; flex-direction:column; gap:10px; }
+.dd-footer__left { display: flex; flex-direction: column; gap: 10px; }
 
-/* 👇 corregimos tamaño del logo (el grande del panel) */
-.dd-footer__logo{
-  max-width: 220px;   /* limite ancho */
+.dd-footer__logo {
+  max-width: 220px;
   width: 100%;
-  height: auto;       /* evita deformaciones */
+  height: auto;
   display: block;
   image-rendering: auto;
 }
 
-.dd-footer__claim{ font-size:1.1rem; margin:0; }
-.dd-footer__subclaim{ color:var(--fr-muted); margin:0; }
+.dd-footer__claim { font-size: 1.1rem; margin: 0; }
+.dd-footer__subclaim { color: var(--fr-muted); margin: 0; }
 
-.dd-footer__list{
-  display:grid; grid-template-columns:repeat(2, minmax(220px,1fr));
-  gap:14px 24px; padding:0; margin:0; list-style:none;
+.dd-footer__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 14px 24px;
+  padding: 0; margin: 0; list-style: none;
 }
-@media (max-width:560px){ .dd-footer__list{ grid-template-columns:1fr; } }
 
-.dd-footer__item{ display:flex; align-items:center; gap:12px; }
-.dd-footer__icon svg{ color:#e6ecff; }
-.dd-footer__link{ color:#fff; text-decoration:none; }
-.dd-footer__link:hover{ color:var(--fr-accent); text-decoration:underline; }
+.dd-footer__item { display: flex; align-items: center; gap: 12px; }
+.dd-footer__icon svg { color: #e6ecff; }
+.dd-footer__link { color: #fff; text-decoration: none; }
+.dd-footer__link:hover { color: var(--fr-accent); text-decoration: underline; }
 
-/* Línea inferior */
-.dd-footer__bottom{
-  border-top:1px solid rgba(255,255,255,.08);
-  padding:10px 18px 16px;
-  display:flex; justify-content:center;
-  color:var(--fr-muted);
+.dd-footer__bottom {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 10px 18px 16px;
+  display: flex; justify-content: center;
+  color: var(--fr-muted);
 }
 
 /* Accesibilidad */
-@media (prefers-reduced-motion: reduce){ .dd-footer__panel{ transition:none; } }
-.dd-footer__bar:focus{ outline:none; }
-.dd-footer__bar:focus-visible{ box-shadow:0 0 0 3px rgba(210,168,79,.45) inset; }
+@media (prefers-reduced-motion: reduce) { .dd-footer__panel { transition: none; } }
+.dd-footer__bar:focus { outline: none; }
+.dd-footer__bar:focus-visible { box-shadow: 0 0 0 3px rgba(210,168,79,.45) inset; }
 
-/* === Utilidad para que el contenido NO quede tapado por la barra === */
-.dds-has-fixed-footer{
-  padding-bottom: var(--fr-h-collapsed);
+/* Responsive */
+@media (max-width: 900px) {
+  .dd-footer__content { grid-template-columns: 1fr; padding: 16px 14px; }
+  /* Panel más alto en mobile porque el grid es una sola columna */
+  .dd-footer.is-open .dd-footer__panel { height: 580px; }
+}
+@media (max-width: 560px) {
+  .dd-footer__list { grid-template-columns: 1fr; }
+  .dd-footer.is-open .dd-footer__panel { height: 680px; }
+}
+
+/* Utilidad padding body */
+.dds-has-fixed-footer { padding-bottom: var(--fr-h-collapsed); }
+
+
+/* ══════════════════════════════════════════════════════════
+   CTA footer — "Cuéntanos tu proyecto"
+   ══════════════════════════════════════════════════════════ */
+
+.dd-footer__cta {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.dd-footer__cta-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dd-footer__cta-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 24px;
+  background: linear-gradient(135deg, #c9a227 0%, #e8c24a 100%);
+  color: #1a2340;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 3px 14px rgba(201, 162, 39, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.dd-footer__cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 55%; height: 100%;
+  background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.28) 50%, transparent 100%);
+  pointer-events: none;
+  animation: dd-cta-shine 4s ease-in-out infinite;
+}
+
+.dd-footer__cta-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(201, 162, 39, 0.55);
+  filter: brightness(1.08);
+}
+
+.dd-footer__cta-button:active:not(:disabled) { transform: translateY(0); }
+.dd-footer__cta-button:disabled { cursor: default; }
+
+.dd-footer__cta-button:focus-visible {
+  outline: 3px solid #e8c24a;
+  outline-offset: 4px;
+}
+
+.dd-footer__cta-label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.dd-footer__cta-arrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.dd-footer__cta-button:hover:not(:disabled) .dd-footer__cta-arrow {
+  transform: translateX(4px);
+}
+
+.dd-footer__cta-subtitle {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.1px;
+}
+
+/* Overlay — anclado al centro del botón */
+.dd-footer__cta-overlay {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.dd-footer__cta-ripple {
+  position: absolute;
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(232, 194, 74, 0.55) 0%,
+    rgba(42, 53, 83, 0.28) 55%,
+    transparent 100%
+  );
+  animation: dd-cta-ripple 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.dd-footer__cta-nodes {
+  position: absolute;
+  top: 0; left: 0;
+}
+
+.dd-footer__cta-connection {
+  position: absolute;
+  top: 0; left: 0;
+  height: 1.5px; width: 0;
+  margin-top: -0.75px;
+  background: linear-gradient(to right, rgba(232, 194, 74, 0.9), transparent);
+  transform-origin: left center;
+  transform: rotate(var(--angle));
+  animation: dd-cta-connection 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.dd-footer__cta-node {
+  position: absolute;
+  top: 0; left: 0;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #e8c24a;
+  box-shadow: 0 0 7px rgba(232, 194, 74, 0.9);
+  animation: dd-cta-node 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Keyframes — idénticos a contact.css, seguros si ambos cargan */
+@keyframes dd-cta-shine {
+  0%, 100% { left: -100%; }
+  45%, 55%  { left: 150%;  }
+}
+
+@keyframes dd-cta-ripple {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  to   { transform: translate(-50%, -50%) scale(5); opacity: 0; }
+}
+
+@keyframes dd-cta-connection {
+  from { width: 0;    opacity: 1;   }
+  70%  {              opacity: 0.8; }
+  to   { width: 48px; opacity: 0;   }
+}
+
+@keyframes dd-cta-node {
+  from {
+    transform: translate(-50%, -50%) translate(0px, 0px) scale(1.2);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0.2);
+    opacity: 0;
+  }
+}
+
+/* prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .dd-footer__cta-button,
+  .dd-footer__cta-arrow { transition: none; }
+  .dd-footer__cta-button::before { animation: none; display: none; }
+  .dd-footer__cta-ripple,
+  .dd-footer__cta-connection,
+  .dd-footer__cta-node { display: none !important; animation: none !important; }
+}
+
+/* Mobile: alinea al centro igual que el resto del footer */
+@media (max-width: 900px) {
+  .dd-footer__cta { align-items: center; }
+  .dd-footer__cta-subtitle { text-align: center; }
 }

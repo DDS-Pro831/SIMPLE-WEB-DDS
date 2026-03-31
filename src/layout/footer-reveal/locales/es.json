@@ -17,5 +17,10 @@
     "brand": "Data Driven Solutions",
     "toggle": "Mostrar u ocultar el panel de contacto",
     "content": "Información de contacto del pie de página"
+  },
+  "cta": {
+    "label": "Cuéntanos tu proyecto",
+    "subtitle": "Completa el formulario y te contactaremos.",
+    "aria": "Abrir formulario de consulta en una nueva pestaña"
   }
 }

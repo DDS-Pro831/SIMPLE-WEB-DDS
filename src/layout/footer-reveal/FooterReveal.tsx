@@ -1,12 +1,12 @@
-// Ubicación: src/layout/footer-reveal/FooterReveal.tsx
-// Propósito: Footer “reveal” (colapsado por defecto) con i18n.
-// Namespace i18n: "footer-reveal" (porque la carpeta se llama footer-reveal)
-
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import "./footer-reveal.css";
 import { useTranslation } from "react-i18next";
 
-// ====== Íconos (idénticos a Contact) ======
+// ── CTA config ────────────────────────────────────────────
+const FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSeA4NORlkc9yMbsIrxw2D8WA24Du9U2GWvoymGxXCm5BtOVJQ/viewform";
+
+// ====== Íconos (sin cambios) ======
 const PhoneIcon = () => (
   <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.9.31 1.77.57 2.61a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.47-1.09a2 2 0 0 1 2.11-.45c.84.26 1.71.45 2.61.57A2 2 0 0 1 22 16.92z"/>
@@ -32,19 +32,18 @@ const LinkedinIcon = () => (
 );
 
 export default function FooterReveal() {
-  // 👇 namespace correcto según la carpeta
   const { t } = useTranslation("footer-reveal");
 
-  // ====== Data traducible ======
   const items = [
-    { label: "(591) 72031600", aria: t("items.whatsapp_bo_aria"), href: "https://wa.me/59172031600", icon: <PhoneIcon /> },
-    { label: "(506) 6187 2840", aria: t("items.whatsapp_cr_aria"), href: "https://wa.me/50661872840", icon: <PhoneIcon /> },
-    { label: "info@datadrivensolutions.dev", aria: t("items.email_aria"), href: "mailto:info@datadrivensolutions.dev", icon: <MailIcon /> },
-    { label: "@dds-dev", aria: t("items.instagram_aria"), href: "https://instagram.com/dds-dev", icon: <IgIcon /> },
-    { label: "linkedin.com/company/dds-dev", aria: t("items.linkedin_aria"), href: "https://www.linkedin.com/company/dds-dev", icon: <LinkedinIcon /> }
+    { label: "(591) 72031600",               aria: t("items.whatsapp_bo_aria"), href: "https://wa.me/59172031600",                   icon: <PhoneIcon /> },
+    { label: "(506) 6187 2840",              aria: t("items.whatsapp_cr_aria"), href: "https://wa.me/50661872840",                   icon: <PhoneIcon /> },
+    { label: "info@datadrivensolutions.dev", aria: t("items.email_aria"),       href: "mailto:info@datadrivensolutions.dev",          icon: <MailIcon /> },
+    { label: "@dds-dev",                     aria: t("items.instagram_aria"),   href: "https://instagram.com/dds-dev",               icon: <IgIcon /> },
+    { label: "linkedin.com/company/dds-dev", aria: t("items.linkedin_aria"),   href: "https://www.linkedin.com/company/dds-dev",    icon: <LinkedinIcon /> },
   ];
 
   const [open, setOpen] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -57,6 +56,15 @@ export default function FooterReveal() {
     document.addEventListener("click", onDocClick);
     return () => document.removeEventListener("click", onDocClick);
   }, [open]);
+
+  const handleCtaClick = useCallback(() => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      window.open(FORM_URL, "_blank", "noopener,noreferrer");
+      setIsAnimating(false);
+    }, 650);
+  }, [isAnimating]);
 
   return (
     <div
@@ -96,6 +104,59 @@ export default function FooterReveal() {
             <img className="dd-footer__logo" src="/logo-white.png" alt={t("aria.brand")} />
             <p className="dd-footer__claim">{t("brand.name")}</p>
             <p className="dd-footer__subclaim">{t("brand.tagline")}</p>
+
+            {/* ── CTA ── */}
+            <div className="dd-footer__cta">
+              <div className="dd-footer__cta-wrapper">
+                <button
+                  type="button"
+                  className="dd-footer__cta-button"
+                  aria-label={t("cta.aria")}
+                  onClick={handleCtaClick}
+                  disabled={isAnimating}
+                >
+                  <span className="dd-footer__cta-label">
+                    {t("cta.label")}
+                    <svg
+                      className="dd-footer__cta-arrow"
+                      width="15" height="15" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" strokeWidth="2.5"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
+                </button>
+
+                {isAnimating && (
+                  <span className="dd-footer__cta-overlay" aria-hidden="true">
+                    <span className="dd-footer__cta-ripple" />
+                    <span className="dd-footer__cta-nodes">
+                      {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => {
+                        const rad = (angle * Math.PI) / 180;
+                        return (
+                          <span key={angle}>
+                            <span
+                              className="dd-footer__cta-connection"
+                              style={{ "--angle": `${angle}deg` } as React.CSSProperties}
+                            />
+                            <span
+                              className="dd-footer__cta-node"
+                              style={{
+                                "--dx": `${Math.cos(rad) * 48}px`,
+                                "--dy": `${Math.sin(rad) * 48}px`,
+                              } as React.CSSProperties}
+                            />
+                          </span>
+                        );
+                      })}
+                    </span>
+                  </span>
+                )}
+              </div>
+              <p className="dd-footer__cta-subtitle">{t("cta.subtitle")}</p>
+            </div>
+            {/* ── fin CTA ── */}
           </div>
 
           <ul className="dd-footer__list">
@@ -115,6 +176,7 @@ export default function FooterReveal() {
             ))}
           </ul>
         </div>
+
         <div className="dd-footer__bottom">
           <small>© {new Date().getFullYear()} {t("brand.name")}</small>
         </div>

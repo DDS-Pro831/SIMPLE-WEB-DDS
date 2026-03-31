@@ -5,5 +5,10 @@
     "page": "Contact page",
     "section": "Contact information section",
     "brand": "Data Driven Solutions"
+  },
+  "cta": {
+    "label": "Tell us about your project",
+    "subtitle": "Fill out the form and we'll contact you.",
+    "aria": "Open project inquiry form in a new tab"
   }
 }

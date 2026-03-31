@@ -5,5 +5,10 @@
     "page": "Página de contacto",
     "section": "Sección de información de contacto",
     "brand": "Data Driven Solutions"
+  },
+  "cta": {
+    "label": "Cuéntanos tu proyecto",
+    "subtitle": "Completa el formulario y te contactaremos.",
+    "aria": "Abrir formulario de consulta en una nueva pestaña"
   }
 }

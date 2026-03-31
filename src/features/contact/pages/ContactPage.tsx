@@ -1,5 +1,5 @@
 // Ubicación: src/features/contact/pages/ContactPage.tsx
-// Propósito: Página “Contacto” con SEO dependiente de i18n (namespace "contact").
+// Propósito: Página “Contacto” con SEO dependiente de i18n (namespace "contact"). 
 
 import React, { useEffect } from "react";
 import ContactSection from "../components/ContactSection";

@@ -17,5 +17,10 @@
     "brand": "Data Driven Solutions",
     "toggle": "Show or hide contact panel",
     "content": "Footer contact information"
+  },
+  "cta": {
+    "label": "Tell us about your project",
+    "subtitle": "Fill out the form and we'll contact you.",
+    "aria": "Open project inquiry form in a new tab"
   }
 }
