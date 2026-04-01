@@ -1,11 +1,10 @@
-// Ubicación: src/layout/navbar/Navbar.tsx
-// Propósito: Navbar accesible con i18n (namespace "navbar") y switcher fijo arriba a la derecha.
+// src/layout/navbar/Navbar.tsx
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./navbar.css";
 import LanguageSwitcher from "@/core/components/LanguageSwitcher";
-import { useTranslation } from "react-i18next";
 
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -13,55 +12,48 @@ const Navbar: React.FC = () => {
   const { t } = useTranslation("navbar");
 
   useEffect(() => {
-    if (open) setOpen(false);
-  }, [pathname, open]);
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
+  const handleNavClick = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    if ((e.target as HTMLElement).tagName === "A") setOpen(false);
+  }, []);
 
   const links = useMemo(
     () => [
       { to: "/sobre-nosotros", label: t("links.about") },
-      { to: "/servicios", label: t("links.services") },
-      { to: "/clientes", label: t("links.clients") },
-      { to: "/equipo", label: t("links.team") },
+      { to: "/servicios",      label: t("links.services") },
+      { to: "/clientes",       label: t("links.clients") },
+      { to: "/equipo",         label: t("links.team") },
     ],
     [t]
   );
 
   return (
     <header className="dd-header" role="banner" aria-label={t("aria.brand")}>
-      {/* 🔹 Switch de idioma fijo al borde superior derecho */}
-      <div className="dd-lang-global">
-        <LanguageSwitcher compact />
-      </div>
-
       <div className="dd-container">
-        {/* Marca / Logo */}
+
+        {/* ── Zona 1: Brand / Logo ── */}
         <Link className="dd-brand" to="/" aria-label={t("aria.brand")}>
           <img src="/logo.png" alt={t("aria.brand")} height={48} />
         </Link>
 
-        {/* Botón hamburguesa (móvil) */}
-        <button
-          className="dd-burger"
-          aria-label={open ? t("aria.closeMenu") : t("aria.openMenu")}
-          aria-expanded={open}
-          aria-controls="primary-nav"
-          onClick={() => setOpen(!open)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-
-        {/* Navegación principal */}
+        {/* ── Zona 2: Navegación principal ── */}
         <nav
           id="primary-nav"
-          className={`dd-nav ${open ? "open" : ""}`}
+          className={`dd-nav${open ? " open" : ""}`}
           role="navigation"
           aria-label={t("aria.primary")}
-          onClick={(e) => {
-            const target = e.target as HTMLElement;
-            if (target.tagName === "A") setOpen(false);
-          }}
+          onClick={handleNavClick}
         >
           {links.map((lnk) => (
             <NavLink
@@ -73,15 +65,13 @@ const Navbar: React.FC = () => {
             </NavLink>
           ))}
 
-          {/* CTA Contacto al final */}
           <NavLink
             to="/contacto"
-            className={({ isActive }) => `dd-btn ${isActive ? "active" : ""}`}
+            className={({ isActive }) => `dd-btn${isActive ? " active" : ""}`}
           >
             {t("links.contact")}
           </NavLink>
 
-          {/* 🔹 Login - acceso al sistema */}
           <a
             href="https://datadrivensolutions.dev/dds-front/login"
             className="dd-btn-login"
@@ -91,6 +81,26 @@ const Navbar: React.FC = () => {
             {t("links.login")}
           </a>
         </nav>
+
+        {/* ── Zona 3: Acciones (switcher + burger) ── */}
+        <div className="dd-actions">
+          <LanguageSwitcher compact />
+
+          <button
+            type="button"
+            className="dd-burger"
+            aria-label={open ? t("aria.closeMenu") : t("aria.openMenu")}
+            aria-expanded={open}
+            aria-controls="primary-nav"
+            aria-haspopup="menu"
+            onClick={() => setOpen((prev) => !prev)}
+          >
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
+          </button>
+        </div>
+
       </div>
     </header>
   );

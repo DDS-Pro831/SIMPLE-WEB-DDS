@@ -3,7 +3,7 @@
 // Notas:
 //  - Usamos SIEMPRE la instancia global de i18n que inicializas en src/i18n.ts
 //    para que changeLanguage(...) exista y no dé TypeError.
-//  - Ajuste de tamaños con CSS variables (is-compact reduce tamaño).
+//  - Ajuste de tamaños con CSS variables (is-compact reduce tamaño). 
 
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";

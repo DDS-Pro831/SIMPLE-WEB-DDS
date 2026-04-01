@@ -1,138 +1,377 @@
-:root{
-  --dd-bg:#f7f8fb;
-  --dd-text:#1f2a44;
-  --dd-muted:#5b6780;
-  --dd-accent:#1e2b45;
-  --dd-accent-press:#152034;
-  --dd-radius:999px;
-  --dd-shadow:0 2px 12px rgba(14,20,40,.12);
-  --dd-ring:0 0 0 3px rgba(30,43,69,.18);
-  --dd-max:1120px;
+/*
+ * src/layout/navbar/navbar.css
+ *
+ * Consume tokens desde src/core/styles/theme.css.
+ * NO declara :root ni variables propias.
+ *
+ * Layout: CSS Grid de 3 zonas
+ *   [brand] | [nav — 1fr] | [actions]
+ *
+ * Mobile ≤ 900px:
+ *   - brand + actions en una fila estable
+ *   - nav: grid-area reseteado antes de position:absolute
+ *     para evitar que el containing block sea la columna del grid
+ */
+
+
+/* ============================
+   Header
+   ============================ */
+.dd-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-navbar);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.92),
+      rgba(255, 255, 255, 0.86)
+    ),
+    var(--color-bg);
+  backdrop-filter: saturate(135%) blur(6px);
+  -webkit-backdrop-filter: saturate(135%) blur(6px);
+  box-shadow: var(--shadow-navbar);
 }
 
-.dd-header{
-  position:sticky;
-  top:0;
-  z-index:50;
-  background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.85)), var(--dd-bg);
-  backdrop-filter:saturate(135%) blur(6px);
-  box-shadow:var(--dd-shadow);
+
+/* ============================
+   Container — 3 zonas
+   ============================ */
+.dd-container {
+  position: relative; /* ancla del dropdown absolute */
+  max-width: var(--content-default);
+  margin: 0 auto;
+  padding: var(--space-2) var(--space-4);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "brand nav actions";
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text);
 }
 
-/* 🔹 Switch global fuera del flujo, pegado al borde superior derecho */
-.dd-lang-global{
-  position:absolute;
-  top:8px;
-  right:12px;
-  z-index:60;
-}
 
-.dd-container{
-  position:relative;
-  max-width:var(--dd-max);
-  margin:0 auto;
-  padding:8px 16px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  color:var(--dd-text);
-}
-
-.dd-brand{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-}
-.dd-brand img{
-  display:block;
-  height:44px;
-  width:auto;
-}
-
-.dd-nav{
-  display:flex;
-  align-items:center;
-  gap:24px;
-  font-weight:600;
-  margin-left:auto;
-}
-.dd-nav a{
-  color:var(--dd-muted);
-  text-decoration:none;
-  letter-spacing:.2px;
-}
-.dd-nav a:hover{ color:var(--dd-text); }
-
-.dd-nav a.active,
-.dd-nav a[aria-current="page"]{
-  color:var(--dd-text);
-  position:relative;
-}
-.dd-nav a.active::after,
-.dd-nav a[aria-current="page"]::after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:-6px;
-  height:2px;
-  background:var(--dd-text);
-  border-radius:2px;
-}
-
-.dd-btn{
-  color:#fff !important;
-  background:var(--dd-accent);
-  padding:8px 14px;
-  border-radius:var(--dd-radius);
-  box-shadow:0 1px 0 rgba(0,0,0,.15), inset 0 -1px 0 rgba(255,255,255,.06);
-}
-
-.dd-btn-login {
-  color: var(--dd-accent) !important;
-  background: transparent;
-  padding: 8px 14px;
-  border-radius: var(--dd-radius);
-  border: 2px solid var(--dd-accent);
-  font-weight: 600;
+/* ============================
+   Zona 1 — Brand / Logo
+   ============================ */
+.dd-brand {
+  grid-area: brand;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   text-decoration: none;
-  letter-spacing: .2px;
-  transition: background .15s, color .15s;
+  color: inherit;
+  flex-shrink: 0;
 }
+
+.dd-brand img {
+  display: block;
+  height: 44px;
+  width: auto;
+}
+
+
+/* ============================
+   Zona 2 — Navegación (desktop)
+   ============================ */
+.dd-nav {
+  grid-area: nav;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-6);
+  font-weight: 600;
+}
+
+.dd-nav a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  font-size: var(--text-sm);
+  white-space: nowrap;
+  transition: color var(--transition-interactive);
+}
+
+.dd-nav a:hover {
+  color: var(--color-text);
+}
+
+/* Ruta activa — desktop */
+.dd-nav a.active,
+.dd-nav a[aria-current="page"] {
+  color: var(--color-text);
+  position: relative;
+}
+
+.dd-nav a.active::after,
+.dd-nav a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 2px;
+}
+
+
+/* ============================
+   CTA — Contacto
+   ============================ */
+.dd-btn {
+  color: var(--color-text-inverse) !important;
+  background: var(--color-primary);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.15),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+  transition:
+    background var(--transition-interactive),
+    transform var(--transition-interactive);
+  white-space: nowrap;
+}
+
+.dd-btn:hover  { background: var(--color-primary-hover); }
+.dd-btn:active { background: var(--color-primary-active); transform: translateY(1px); }
+
+.dd-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(30, 43, 69, 0.25);
+}
+
+
+/* ============================
+   CTA — Login
+   ============================ */
+.dd-btn-login {
+  color: var(--color-primary) !important;
+  background: transparent;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-primary);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition:
+    background var(--transition-interactive),
+    color var(--transition-interactive);
+}
+
 .dd-btn-login:hover {
-  background: var(--dd-accent);
-  color: #fff !important;
+  background: var(--color-primary);
+  color: var(--color-text-inverse) !important;
 }
+
 .dd-btn-login:active {
+  background: var(--color-primary-active);
+  color: var(--color-text-inverse) !important;
   transform: translateY(1px);
-  background: var(--dd-accent-press);
-  color: #fff !important;
 }
+
 .dd-btn-login:focus-visible {
   outline: none;
-  box-shadow: var(--dd-ring);
+  box-shadow: 0 0 0 3px rgba(30, 43, 69, 0.25);
 }
 
-.dd-btn:active{ transform:translateY(1px); background:var(--dd-accent-press) }
-.dd-btn:focus-visible{ outline:none; box-shadow:var(--dd-ring) }
 
-.dd-burger{ display:none; width:40px; height:36px; border:0; background:transparent; padding:6px }
-.dd-burger span{ display:block; height:2px; background:var(--dd-text); margin:6px 0; border-radius:2px }
-
-@media (max-width:900px){
-  .dd-burger{ display:block }
-  .dd-nav{
-    position:absolute; top:56px; right:12px;
-    display:none; flex-direction:column; gap:10px;
-    background:#fff; color:var(--dd-text);
-    padding:12px; border-radius:12px; box-shadow:var(--dd-shadow);
-    border:1px solid rgba(15,21,38,.06); min-width:220px;
-  }
-  .dd-nav.open{ display:flex }
+/* ============================
+   Zona 3 — Acciones
+   ============================ */
+.dd-actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
 }
 
+
+/* ============================
+   Botón hamburguesa
+   ============================ */
+.dd-burger {
+  display: none; /* oculto en desktop */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  padding: var(--space-2);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.dd-burger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--color-text);
+  border-radius: 2px;
+  transition:
+    transform var(--transition-interactive),
+    opacity var(--transition-interactive);
+}
+
+.dd-burger span:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+/* Animación → X cuando open */
+.dd-burger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.dd-burger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.dd-burger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+
+/* ============================
+   Focus visible
+   ============================ */
 .dd-nav a:focus-visible,
 .dd-burger:focus-visible,
-.dd-brand:focus-visible{
-  outline:none; box-shadow:var(--dd-ring); border-radius:8px;
+.dd-brand:focus-visible {
+  outline: none;
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 3px rgba(30, 43, 69, 0.25);
+}
+
+
+/* ============================================================
+   RESPONSIVE ≤ 900px
+   ============================================================ */
+@media (max-width: 900px) {
+
+  .dd-burger {
+    display: flex;
+  }
+
+  .dd-actions {
+    gap: var(--space-2);
+  }
+
+  .dd-nav {
+    /*
+     * ── FIX CLAVE ──────────────────────────────────────────────
+     * Resetear grid placement antes de aplicar position:absolute.
+     *
+     * Sin este reset, el elemento sigue siendo un "grid item
+     * colocado" en la columna `nav` (la 1fr central), y el
+     * navegador usa ESA columna como containing block del absolute,
+     * produciendo el dropdown angosto y cortado.
+     *
+     * Con grid-area: auto el elemento sale del grid placement
+     * explícito y position:absolute lo ancla correctamente al
+     * position:relative del .dd-container, tomando todo su ancho.
+     * ────────────────────────────────────────────────────────── */
+    grid-area: auto;
+    grid-column: auto;
+    grid-row: auto;
+
+    /* Oculto por defecto */
+    display: none;
+
+    /* Dropdown anclado al .dd-container */
+    position: absolute;
+    top: calc(100% + var(--space-1));
+    left: var(--space-4);
+    right: var(--space-4);
+    width: auto;
+
+    /* Layout interno: columna de links */
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+
+    /* Visual */
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-3);
+
+    /* Altura máxima para landscape y pantallas cortas */
+    max-height: calc(100dvh - var(--nav-height) - var(--space-8));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    z-index: var(--z-dropdown);
+  }
+
+  .dd-nav.open {
+    display: flex;
+  }
+
+  /* Links móvil */
+  .dd-nav a {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    white-space: normal;
+  }
+
+  .dd-nav a:hover {
+    background: var(--color-surface-raised);
+    color: var(--color-primary);
+  }
+
+  /* Activo móvil: fondo, sin underline */
+  .dd-nav a.active::after,
+  .dd-nav a[aria-current="page"]::after {
+    display: none;
+  }
+
+  .dd-nav a.active,
+  .dd-nav a[aria-current="page"] {
+    color: var(--color-primary);
+    background: var(--color-primary-subtle);
+  }
+
+  /* CTAs móvil: ancho completo */
+  .dd-btn,
+  .dd-btn-login {
+    display: block;
+    text-align: center;
+    margin-top: var(--space-2);
+  }
+}
+
+
+/* ============================================================
+   RESPONSIVE ≤ 480px — pantallas muy pequeñas
+   ============================================================ */
+@media (max-width: 480px) {
+
+  /* Padding reducido para ganar espacio horizontal */
+  .dd-container {
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-2);
+  }
+
+  /* Dropdown hereda margen reducido */
+  .dd-nav {
+    left: var(--space-3);
+    right: var(--space-3);
+  }
+
+  /* Logo ligeramente más pequeño */
+  .dd-brand img {
+    height: 36px;
+  }
 }

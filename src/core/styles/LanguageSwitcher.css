@@ -1,87 +1,161 @@
-/* ====== Layout general (EN ... [pill] ... ES) ====== */
+/*
+ * src/core/styles/LanguageSwitcher.css
+ *
+ * Consume tokens desde src/core/styles/theme.css.
+ * NO declara :root ni variables propias.
+ * NO usa colores hardcodeados.
+ *
+ * Diseño pill: EN ── [🇺🇸/🇪🇸] ── ES
+ * El knob se desplaza de izquierda (EN activo) a derecha (ES activo).
+ */
+
+
+/* ====== Contenedor general ====== */
 .langwrap {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
-    "Apple Color Emoji", "Segoe UI Emoji";
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  /* Evita que colapse cuando está en un contexto flex/grid */
+  flex-shrink: 0;
 }
 
+
+/* ====== Etiquetas EN / ES ====== */
 .langwrap__side {
   font-weight: 700;
-  letter-spacing: 0.02em;
-  color: #6b7280;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
   user-select: none;
-  font-size: 13px;
+  font-size: var(--text-xs);
   line-height: 1;
 }
 
-/* ====== Switch “pill” pequeño (50% del tamaño anterior) ====== */
+
+/* ====== Pill (botón interactivo) ====== */
 .langpill {
-  --w: 90px;       /* 180 → 90  */
-  --h: 38px;       /* 76  → 38  */
-  --pad: 3px;
-  --bw: 2px;
-  --knob: calc(var(--h) - var(--pad) * 2);
+  /*
+   * Variables locales del componente.
+   * Se anulan en .is-compact para la variante pequeña.
+   * No son tokens de sistema: son métricas internas del pill.
+   */
+  --lp-w:    90px;
+  --lp-h:    38px;
+  --lp-pad:  3px;
+  --lp-bw:   2px;
+  --lp-knob: calc(var(--lp-h) - var(--lp-pad) * 2);
 
   position: relative;
   display: inline-block;
-  width: var(--w);
-  height: var(--h);
-  border-radius: 9999px;
+  width:  var(--lp-w);
+  height: var(--lp-h);
+
+  /* Imagen de bandera como fondo */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 100% auto; /* evita deformación vertical */
-  border: var(--bw) solid #2f2f2f;
+  background-color: transparent;
+
+  border-radius: var(--radius-full);
+  border: var(--lp-bw) solid var(--color-primary);
   box-shadow:
-    0 4px 6px rgba(0,0,0,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.7),
-    inset 0 -1px 3px rgba(0,0,0,0.18);
+    var(--shadow-md),
+    inset 0  1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.10);
+
   cursor: pointer;
-  transition: background-position 300ms ease, filter 200ms ease;
   overflow: hidden;
+  /* Reset de estilos de <button> */
+  padding: 0;
+  appearance: none;
+
+  transition: filter var(--transition-interactive);
 }
 
 .langpill:hover {
-  filter: brightness(1.05) saturate(1.05);
+  filter: brightness(1.05) saturate(1.06);
 }
 
-/* ====== Knob ====== */
+.langpill:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--color-gold-subtle),
+    var(--shadow-sm);
+}
+
+
+/* ====== Knob (indicador deslizante) ====== */
 .langpill__knob {
   position: absolute;
-  top: 50%;
-  left: var(--pad);
+  top:  50%;
+  left: var(--lp-pad);
   transform: translate(0, -50%);
-  background: #ffffff;
-  border-radius: 9999px;
-  width: var(--knob);
-  height: var(--knob);
-  border: var(--bw) solid #2f2f2f;
+
+  width:  var(--lp-knob);
+  height: var(--lp-knob);
+
+  background: var(--color-surface);
+  border-radius: var(--radius-full);
+  border: var(--lp-bw) solid var(--color-primary);
   box-shadow:
-    0 3px 6px rgba(0,0,0,0.25),
-    inset 0 1px 2px rgba(255,255,255,0.9),
-    inset 0 -1px 3px rgba(0,0,0,0.15);
-  transition: transform 300ms ease;
+    0 2px 5px rgba(0, 0, 0, 0.22),
+    inset 0  1px 2px rgba(255, 255, 255, 0.75),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.10);
+
+  /* No interfiere con clicks en el pill */
+  pointer-events: none;
+
+  transition: transform 300ms var(--ease-out-expo);
 }
 
-/* Posición knob a la derecha cuando ES activo */
+/*
+ * Posición del knob en ES activo (lado derecho).
+ * Fórmula: desplazamiento = ancho_pill - ancho_knob - pad_izq - borde_izq
+ * El pad_izq ya está en el left inicial, por eso no se resta doble.
+ */
 .langpill.is-es .langpill__knob {
   transform: translate(
-      calc(var(--w) - var(--knob) - var(--pad) - var(--bw)),
-      -50%
+    calc(var(--lp-w) - var(--lp-knob) - var(--lp-pad) - var(--lp-bw)),
+    -50%
   );
 }
 
-/* ====== Accesibilidad ====== */
+
+/* ====== Variante compacta (navbar) ====== */
+/*
+ * Reduce dimensiones del pill para convivir con el burger en mobile.
+ * El gap y los labels también se reducen.
+ */
+.langpill.is-compact {
+  --lp-w:   72px;
+  --lp-h:   30px;
+  --lp-pad:  3px;
+  --lp-bw:   2px;
+}
+
+.langwrap.is-compact {
+  gap: var(--space-1);
+}
+
+.langwrap.is-compact .langwrap__side {
+  /* ligeramente por debajo de --text-xs para no competir con el logo */
+  font-size: 11px;
+}
+
+
+/* ====== Accesibilidad: sr-only ====== */
+/*
+ * Duplicado aquí como fallback por si index.css no se carga primero.
+ * Si la clase global .sr-only ya existe, este bloque es inocuo.
+ */
 .sr-only {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
+  position:   absolute !important;
+  width:      1px      !important;
+  height:     1px      !important;
+  padding:    0        !important;
+  margin:    -1px      !important;
+  overflow:   hidden   !important;
+  clip:       rect(0, 0, 0, 0) !important;
+  white-space: nowrap  !important;
+  border:     0        !important;
 }
