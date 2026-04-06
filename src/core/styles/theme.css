@@ -5,26 +5,36 @@
  *
  * Estructura:
  *   1. Primitivos   → valores raw, sin semántica
- *   2. Semánticos   → roles visuales del sistema
+ *   2. Semánticos   → roles visuales + overlays
  *   3. Layout       → medidas estructurales
  *   4. Tipografía   → escala y familias
  *   5. Espaciado    → escala 4px
  *   6. Z-index      → capas de apilamiento
  *   7. Elevación    → sombras
  *   8. Interacción  → radii, transiciones
- *   9. Legacy       → aliases --dds-* para compatibilidad temporal
+ *   9. Footer + CTA → colores footer y botón dorado compartido
+ *  10. Legacy       → aliases --dds-* / --fr-* (temporales)
  *
  * REGLA: ningún otro archivo CSS define variables de color, z-index,
- * spacing, radius ni transitions. Solo consume las de este archivo.
+ * spacing, radius ni transitions. Solo consume desde este archivo.
  *
- * MIGRACIÓN: Los alias legacy (sección 9) se eliminan cuando todos los
- * componentes hayan migrado a los tokens semánticos.
+ * ── Historial de cambios ─────────────────────────────────────
+ * v1  Estructura base + navbar
+ * v2  Footer + CTA dorado + z-index
+ * v3  + --primitive-navy-630    (fondo sección Contact)
+ *     + --color-contact-bg      (token semántico contact)
+ *     + --overlay-dark          (overlay oscuro sobre imágenes)
+ *     + --dd-max alias legacy   (contact aún no migrado)
+ * v4  + --footer-bar-clearance  (padding mínimo vs footer fijo)
+ *       = var(--footer-collapsed-h) = 56px
+ *       Consumido por .dds-has-fixed-footer en index.css
+ * ─────────────────────────────────────────────────────────────
  */
+
+
 
 /* ============================================================
    1. PRIMITIVOS
-   Valores raw. No se usan directamente en componentes.
-   Solo los tokens semánticos (sección 2) los referencian.
    ============================================================ */
 :root {
   /* Azul marino — paleta principal DDS */
@@ -32,91 +42,116 @@
   --primitive-navy-100: #d5dce9;
   --primitive-navy-200: #a8b4cc;
   --primitive-navy-300: #7a8cae;
-  --primitive-navy-400: #5b6780;  /* muted */
+  --primitive-navy-400: #5b6780;
   --primitive-navy-500: #3d4d68;
   --primitive-navy-600: #2a3a58;
-  --primitive-navy-700: #1e2b45;  /* accent base */
-  --primitive-navy-800: #152034;  /* accent pressed */
+  --primitive-navy-630: #2a3553;  /* v3 — fondo sección Contact, 7pts más frío que navy-600 */
+  --primitive-navy-700: #1e2b45;
+  --primitive-navy-800: #152034;
   --primitive-navy-900: #0d1522;
 
   /* Neutros fríos */
-  --primitive-neutral-50:  #f7f8fb;  /* bg base */
+  --primitive-neutral-50:  #f7f8fb;
   --primitive-neutral-100: #eef0f5;
   --primitive-neutral-200: #dde0ea;
   --primitive-neutral-300: #c5c9d8;
   --primitive-neutral-400: #9aa0b4;
   --primitive-neutral-500: #737b90;
   --primitive-neutral-600: #555d70;
-  --primitive-neutral-900: #1f2a44;  /* texto principal */
+  --primitive-neutral-900: #1f2a44;
 
   /* Dorado */
   --primitive-gold-400: #e0ba6a;
-  --primitive-gold-500: #d2a84f;  /* gold base */
+  --primitive-gold-500: #d2a84f;
   --primitive-gold-600: #b88b32;
 
   /* Blancos */
-  --primitive-white: #ffffff;
+  --primitive-white:    #ffffff;
   --primitive-white-95: rgba(255, 255, 255, 0.95);
   --primitive-white-80: rgba(255, 255, 255, 0.80);
 }
 
 
+
 /* ============================================================
    2. TOKENS SEMÁNTICOS
-   Roles visuales. Estos son los que consumen los componentes.
    ============================================================ */
 :root {
-  /* --- Superficies --- */
+  /* ── Superficies ── */
   --color-bg:             var(--primitive-neutral-50);
   --color-surface:        var(--primitive-white);
   --color-surface-raised: var(--primitive-neutral-100);
-  --color-surface-nav:    var(--primitive-neutral-50); /* fondo navbar */
+  --color-surface-nav:    var(--primitive-neutral-50);
   --color-divider:        var(--primitive-neutral-200);
   --color-border:         var(--primitive-neutral-300);
 
-  /* --- Texto --- */
+  /* ── Texto ── */
   --color-text:           var(--primitive-neutral-900);
   --color-text-muted:     var(--primitive-navy-400);
   --color-text-faint:     var(--primitive-neutral-400);
   --color-text-inverse:   var(--primitive-white);
   --color-text-on-accent: var(--primitive-white);
 
-  /* --- Acento principal (navy) --- */
+  /* ── Acento principal (navy) ── */
   --color-primary:        var(--primitive-navy-700);
   --color-primary-hover:  var(--primitive-navy-600);
   --color-primary-active: var(--primitive-navy-800);
   --color-primary-subtle: var(--primitive-navy-50);
 
-  /* --- Dorado (highlight, badges, detalles) --- */
-  --color-gold:           var(--primitive-gold-500);
-  --color-gold-hover:     var(--primitive-gold-600);
-  --color-gold-subtle:    rgba(210, 168, 79, 0.15);
+  /* ── Dorado ── */
+  --color-gold:        var(--primitive-gold-500);
+  --color-gold-hover:  var(--primitive-gold-600);
+  --color-gold-subtle: rgba(210, 168, 79, 0.15);
 
-  /* --- Estados funcionales --- */
+  /* ── Estados funcionales ── */
   --color-focus-ring:     var(--primitive-gold-500);
   --color-selection-bg:   var(--primitive-navy-700);
   --color-selection-text: var(--primitive-white);
+
+  /* ── Sección Contact ── v3
+   * #2a3553 difiere 7pts en canal azul de navy-600 (#2a3a58).
+   * Diferencia perceptible en pantalla → merece primitive propio.
+   */
+  --color-contact-bg: var(--primitive-navy-630);
+
+  /* ── Overlays sobre imágenes ── v3
+   * Valor 0.40 garantiza contraste WCAG AA para texto blanco
+   * sobre fotografía. Reutilizable en cualquier sección con
+   * background-image (hero, banners, etc.).
+   */
+  --overlay-dark: rgba(0, 0, 0, 0.40);
 }
+
 
 
 /* ============================================================
    3. LAYOUT
-   Medidas estructurales globales.
    ============================================================ */
 :root {
-  --nav-height:           56px;   /* altura del Navbar */
-  --footer-collapsed-h:   56px;   /* altura FooterReveal contraído */
+  --nav-height:           56px;
+  --footer-collapsed-h:   56px;
+  --footer-expanded-h:    420px;
+  --footer-expanded-h-md: 580px;   /* ≤ 900px: grid a 1 columna  */
+  --footer-expanded-h-sm: 680px;   /* ≤ 560px: lista a 1 columna */
 
-  --content-narrow:       640px;
-  --content-default:      1120px;
-  --content-wide:         1360px;
+  /*
+   * v4 — Espacio mínimo que el contenido principal debe reservar
+   * en su extremo inferior para no quedar tapado por la barra fija.
+   * = footer-collapsed-h (56px).
+   * Consumido exclusivamente por .dds-has-fixed-footer en index.css.
+   * Si la barra cambia de alto, solo hay que editar este token.
+   */
+  --footer-bar-clearance: var(--footer-collapsed-h);
+
+  --content-narrow:  640px;
+  --content-default: 1120px;
+  --content-wide:    1200px;
 }
+
 
 
 /* ============================================================
    4. TIPOGRAFÍA
-   Familias y escala fluida con clamp().
-   Mínimo absoluto: 12px (0.75rem).
    ============================================================ */
 :root {
   --font-body:    'Poppins', -apple-system, BlinkMacSystemFont,
@@ -125,20 +160,19 @@
                   'Segoe UI', Roboto, sans-serif;
   --font-mono:    'Fira Code', 'Cascadia Code', Consolas, monospace;
 
-  /* Escala fluida */
-  --text-xs:   clamp(0.75rem,  0.70rem + 0.20vw, 0.875rem); /* 12px → 14px */
-  --text-sm:   clamp(0.875rem, 0.82rem + 0.28vw, 1rem);     /* 14px → 16px */
-  --text-base: clamp(1rem,     0.96rem + 0.20vw, 1.125rem); /* 16px → 18px */
-  --text-lg:   clamp(1.125rem, 1rem    + 0.60vw, 1.5rem);   /* 18px → 24px */
-  --text-xl:   clamp(1.5rem,   1.2rem  + 1.00vw, 2.25rem);  /* 24px → 36px */
-  --text-2xl:  clamp(2rem,     1.2rem  + 2.00vw, 3.5rem);   /* 32px → 56px */
-  --text-3xl:  clamp(2.5rem,   1rem    + 3.50vw, 5rem);     /* 40px → 80px */
+  --text-xs:   clamp(0.75rem,  0.70rem + 0.20vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.82rem + 0.28vw, 1rem);
+  --text-base: clamp(1rem,     0.96rem + 0.20vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem    + 0.60vw, 1.5rem);
+  --text-xl:   clamp(1.5rem,   1.2rem  + 1.00vw, 2.25rem);
+  --text-2xl:  clamp(2rem,     1.2rem  + 2.00vw, 3.5rem);
+  --text-3xl:  clamp(2.5rem,   1rem    + 3.50vw, 5rem);
 }
 
 
+
 /* ============================================================
-   5. ESPACIADO
-   Base 4px. Todos los margin/padding/gap usan estos tokens.
+   5. ESPACIADO (base 4px)
    ============================================================ */
 :root {
   --space-1:  0.25rem;   /*  4px */
@@ -156,24 +190,25 @@
 }
 
 
+
 /* ============================================================
    6. Z-INDEX
-   Escala de capas de apilamiento. Nunca usar valores arbitrarios.
    ============================================================ */
 :root {
   --z-base:     0;
-  --z-raised:   10;    /* cards con hover, dropdowns internos */
-  --z-navbar:   100;   /* Navbar sticky */
-  --z-dropdown: 200;   /* Menú mobile desplegado, tooltips */
-  --z-overlay:  300;   /* Overlays, backdrops */
-  --z-modal:    400;   /* Modales */
-  --z-toast:    500;   /* Notificaciones temporales */
+  --z-raised:   10;    /* cards con hover                      */
+  --z-footer:   80;    /* footer fijo — bajo navbar            */
+  --z-navbar:   100;   /* navbar sticky                        */
+  --z-dropdown: 200;   /* menú mobile, tooltips                */
+  --z-overlay:  300;   /* backdrops                            */
+  --z-modal:    400;   /* modales                              */
+  --z-toast:    500;   /* notificaciones                       */
 }
+
 
 
 /* ============================================================
    7. ELEVACIÓN (SOMBRAS)
-   Tono cálido-frío ajustado a la paleta navy.
    ============================================================ */
 :root {
   --shadow-sm: 0 1px 3px  rgba(14, 20, 40, 0.08),
@@ -186,12 +221,15 @@
                0 4px  12px rgba(14, 20, 40, 0.08);
 
   --shadow-navbar: 0 2px 12px rgba(14, 20, 40, 0.12);
+
+  /* Dirección invertida (hacia arriba) para el footer */
+  --shadow-footer: 0 -8px 30px rgba(0, 0, 0, 0.28);
 }
+
 
 
 /* ============================================================
    8. INTERACCIÓN
-   Radii y transiciones. Un único ritmo en todo el sistema.
    ============================================================ */
 :root {
   --radius-sm:   4px;
@@ -200,51 +238,79 @@
   --radius-xl:   16px;
   --radius-full: 9999px;
 
-  /* Easing compartido */
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Duraciones */
-  --duration-fast:   150ms;
-  --duration-base:   200ms;
-  --duration-slow:   350ms;
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 350ms;
 
-  /* Shorthand de transición interactiva (para hover/focus) */
   --transition-interactive: var(--duration-base) var(--ease-out-expo);
 }
 
 
+
 /* ============================================================
-   9. ALIAS LEGACY  ←  COMPATIBILIDAD TEMPORAL
-   ──────────────────────────────────────────────────────────
-   Estos alias permiten que Navbar, Hero, Footer y demás
-   componentes sigan funcionando SIN modificar su CSS todavía.
-   Plan de eliminación:
-     - Cuando un componente migre a tokens semánticos,
-       se borra el alias correspondiente de esta sección.
-     - Esta sección desaparece cuando todos hayan migrado.
-   ──────────────────────────────────────────────────────────
-   NO añadir nuevos --dds-* aquí. Los componentes nuevos
-   deben consumir directamente los tokens semánticos.
+   9. FOOTER + CTA DORADO
+   Tokens del footer reveal y del botón CTA dorado compartido
+   (FooterReveal + ContactSection). Centralizados aquí porque
+   ambos componentes deben consumir exactamente el mismo valor.
    ============================================================ */
 :root {
-  /* Colores */
+  /* Fondos del footer (dark navy surface) */
+  --color-footer-bg:         var(--color-primary);        /* #1e2b45 */
+  --color-footer-bg-deep:    var(--color-primary-active); /* #152034 */
+  --color-footer-bg-darkest: var(--primitive-navy-900);   /* #0d1522 */
+
+  /*
+   * Texto del footer: azul-blanco frío (#eaf1ff).
+   * Distinto de --color-text-inverse (blanco puro #fff).
+   * Unificarlos introduciría un cambio visual perceptible
+   * en el footer → se mantiene token propio.
+   */
+  --color-footer-text:  #eaf1ff;
+  --color-footer-muted: #b8c2d9;
+  --color-footer-icon:  #cbd8ff;  /* SVGs decorativos sobre fondo dark */
+
+  /* Botón CTA dorado — compartido por FooterReveal y ContactSection */
+  --color-cta-from: #c9a227;  /* gradient start */
+  --color-cta-to:   #e8c24a;  /* gradient end   */
+  --color-cta-text: #1a2340;  /* texto oscuro sobre botón dorado */
+}
+
+
+
+/* ============================================================
+   10. ALIAS LEGACY  ←  COMPATIBILIDAD TEMPORAL
+   ──────────────────────────────────────────────────────────
+   Permiten que componentes no migrados sigan funcionando
+   sin cambios hasta que sean intervenidos en su fase.
+   Plan: eliminar alias por alias al migrar cada componente.
+   NO añadir nuevos alias aquí.
+   ============================================================ */
+:root {
+  /* -- dds-* (navbar, about, services, team…) -- */
   --dds-bg:           var(--color-bg);
   --dds-text:         var(--color-text);
   --dds-accent:       var(--color-primary);
   --dds-accent-press: var(--color-primary-active);
   --dds-gold:         var(--color-gold);
   --dds-muted:        var(--color-text-muted);
-
-  /* Layout */
   --nav-h:            var(--nav-height);
   --fr-h-collapsed:   var(--footer-collapsed-h);
   --dds-max:          var(--content-default);
-
-  /* Elevación / forma */
   --dds-shadow:       var(--shadow-navbar);
   --dds-radius:       var(--radius-lg);
-
-  /* Transición */
   --dds-ease:         var(--ease-out-expo);
+  --dd-max:           var(--content-default);  /* v3 — usado en ContactSection legacy */
+
+  /* -- fr-* (footer reveal — aún no migrado) -- */
+  --fr-bg:         var(--color-footer-bg);
+  --fr-bg-2:       var(--color-footer-bg-deep);
+  --fr-fg:         var(--color-footer-text);
+  --fr-muted:      var(--color-footer-muted);
+  --fr-accent:     var(--color-gold);
+  --fr-max:        var(--content-wide);
+  --fr-h-expanded: var(--footer-expanded-h);
+  --fr-shadow:     var(--shadow-footer);
 }

@@ -1,201 +1,262 @@
-:root{
-  --container: 1200px;
-  --pad: 24px;
+/*
+ * src/features/about/styles/about.css
+ *
+ * Consume tokens desde src/core/styles/theme.css.
+ * NO declara :root ni variables propias.
+ *
+ * ── Nota de bug heredado ─────────────────────────────────────
+ * Los font-size clamp() en .dd-about-text p y .dd-about2-text p
+ * tienen min > max (e.g. clamp(1.2rem, 1.1vw, 1.06rem)).
+ * Esto hace que la fuente ENCOJA en pantallas grandes.
+ * Se preserva intencionalmente para no alterar el diseño
+ * hasta que el equipo decida corregirlo en una fase posterior.
+ * ─────────────────────────────────────────────────────────────
+ */
 
-  /* marca */
-  --title: #1f2a44;
-  --text: #1e2433;
 
-  /* foto doble borde */
-  --offset-1: #bf9b30; /* amarillo (más cerca) */
-  --offset-2: #2c3a57; /* azul (más lejos) */
-  --radius: 16px;
-}
+/* ============================================================
+   SECCIÓN
+   ============================================================ */
 
-/* sección */
 .dd-about {
   position: relative;
-  background: #fff;
-  padding-block: clamp(2rem, 6vw, 4rem);
+  background: var(--color-surface);
+  padding-block: clamp(var(--space-8), 6vw, var(--space-16));
 }
 
-/* fondo decorativo (NodeBall) */
-.dd-about-bg{
+
+/* Fondo decorativo (NodeBall) */
+.dd-about-bg {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 0;         /* por debajo del contenido */
+  z-index: 0;
 }
 
-/* GRID con áreas */
-.dd-about-grid{
+
+/* ============================================================
+   GRID CON ÁREAS
+   ============================================================ */
+
+.dd-about-grid {
   position: relative;
-  z-index: 1;         /* sobre el fondo */
-  max-width: var(--container);
+  z-index: 1;
+  max-width: var(--content-wide);
   margin: 0 auto;
-  padding: 0 var(--pad);
+  padding: 0 var(--space-6);
   display: grid;
   grid-template-columns: minmax(280px, 42%) 1fr;
   grid-template-areas:
     "art content"
     "text image";
   align-items: center;
-  column-gap: clamp(1rem, 3vw, 2rem);
-  row-gap: clamp(1.25rem, 3vw, 2rem);
+  column-gap: clamp(var(--space-4), 3vw, var(--space-8));
+  row-gap:    clamp(var(--space-5), 3vw, var(--space-8));
 }
 
-/* =============== PARTE 1 =============== */
-.dd-about-art{
+
+/* ============================================================
+   PARTE 1 — Imagen izquierda con efecto de doble borde
+   ============================================================ */
+
+.dd-about-art {
   grid-area: art;
   position: relative;
-  isolation: isolate;                    /* crea contexto de apilado */
+  isolation: isolate;
   height: clamp(180px, 34vw, 360px);
-  margin-left: max(-6vw, -64px);         /* que “salga” del borde izquierdo */
+  margin-left: max(-6vw, -64px);
   overflow: visible;
-  border-radius: var(--radius);
+  border-radius: var(--radius-xl);
 }
-.dd-about-art img{
+
+.dd-about-art img {
   position: relative;
-  z-index: 2;                             /* por encima de los bordes */
+  z-index: 2;
   display: block;
   width: calc(84% + 6vw);
   height: 100%;
   object-fit: cover;
   object-position: center 70%;
   border-radius: inherit;
-  filter: contrast(.95) saturate(.95);
+  filter: contrast(0.95) saturate(0.95);
 }
+
 .dd-about-art::before,
-.dd-about-art::after{
-  content:"";
-  position:absolute;
+.dd-about-art::after {
+  content: "";
+  position: absolute;
   inset: 0;
   border-radius: inherit;
   z-index: 0;
 }
-.dd-about-art::before{                    /* azul (más lejos) */
-  background: var(--offset-2);
+
+/* Capa azul — más lejos */
+.dd-about-art::before {
+  /*
+   * --color-primary-hover = #2a3a58
+   * Original: #2c3a57 — diferencia de 2pts, imperceptible.
+   */
+  background: var(--color-primary-hover);
   transform: translate(20px, 20px);
 }
-.dd-about-art::after{                     /* amarillo (más cerca) */
-  background: var(--offset-1);
+
+/* Capa dorada — más cerca */
+.dd-about-art::after {
+  /*
+   * --color-gold-hover = #b88b32
+   * Original: #bf9b30 — diferencia de 7pts en canal rojo,
+   * aceptable en un borde decorativo.
+   */
+  background: var(--color-gold-hover);
   transform: translate(10px, 12px);
 }
 
-/* texto principal */
-.dd-about-content{
+
+/* ============================================================
+   PARTE 1 — Texto principal
+   ============================================================ */
+
+.dd-about-content {
   grid-area: content;
-  padding-inline: clamp(.25rem, 1vw, .5rem);
-  color: var(--text);
+  padding-inline: clamp(var(--space-1), 1vw, var(--space-2));
+  color: var(--color-text);
 }
-.dd-about-content h2{
-  margin: 0 0 .75rem 0;
+
+.dd-about-content h2 {
+  margin: 0 0 var(--space-3) 0;
+  /*
+   * Escala propia del heading about: 1.9rem–2.4rem.
+   * No mapea limpiamente a --text-xl (1.5rem–2.25rem)
+   * sin cambiar el diseño actual.
+   */
   font-size: clamp(1.9rem, 3.8vw, 2.4rem);
   line-height: 1.2;
-  letter-spacing: -.01em;
-  color: var(--title);
+  letter-spacing: -0.01em;
+  color: var(--color-text);
   text-align: center;
   text-wrap: balance;
 }
-.dd-about-text{
+
+.dd-about-text {
   max-width: 55ch;
   margin-inline: auto;
 }
-.dd-about-text p{
-  margin: 0 0 .55rem 0;
+
+.dd-about-text p {
+  margin: 0 0 var(--space-2) 0;
   line-height: 1.6;
+  /* BUG heredado: min (1.2rem) > max (1.06rem) — ver nota de archivo */
   font-size: clamp(1.2rem, 1.1vw, 1.06rem);
   text-align: left;
 }
 
-/* =============== PARTE 2 =============== */
-.dd-about2-text{
+
+/* ============================================================
+   PARTE 2 — Texto secundario
+   ============================================================ */
+
+.dd-about2-text {
   grid-area: text;
-  color: var(--text);
+  color: var(--color-text);
 }
-.dd-about2-text p{
+
+.dd-about2-text p {
+  /* BUG heredado: min (1.3rem) > max (1.06rem) — ver nota de archivo */
   font-size: clamp(1.3rem, 1.1vw, 1.06rem);
   line-height: 1.6;
   max-width: 52ch;
 }
-.dd-about2-text strong{
+
+.dd-about2-text strong {
   font-weight: 700;
-  color: var(--title);
+  color: var(--color-text);
 }
 
-/* foto con DOBLE borde */
-.dd-about2-image{
+
+/* ============================================================
+   PARTE 2 — Imagen con doble borde
+   ============================================================ */
+
+.dd-about2-image {
   grid-area: image;
   position: relative;
   display: inline-block;
 }
-.dd-about2-image img{
+
+.dd-about2-image img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: var(--radius);
+  border-radius: var(--radius-xl);
   position: relative;
   z-index: 2;
   object-fit: cover;
 }
 
-/* capas del offset */
 .dd-about2-image::before,
-.dd-about2-image::after{
+.dd-about2-image::after {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: var(--radius);
+  border-radius: var(--radius-xl);
   z-index: 0;
 }
-.dd-about2-image::before{            /* azul (más lejos) */
-  background: var(--offset-2);
+
+/* Capa azul — más lejos */
+.dd-about2-image::before {
+  background: var(--color-primary-hover);
   transform: translate(20px, 20px);
 }
-.dd-about2-image::after{             /* amarillo (más cerca) */
-  background: var(--offset-1);
+
+/* Capa dorada — más cerca */
+.dd-about2-image::after {
+  background: var(--color-gold-hover);
   transform: translate(10px, 12px);
 }
 
-/* =============== RESPONSIVE =============== */
 
-@media (max-width: 960px){
-  /* Orden en móvil: texto principal → imagen 1 → texto corto → imagen 2 */
-  .dd-about-grid{
+/* ============================================================
+   RESPONSIVE ≤ 960px
+   ============================================================ */
+
+@media (max-width: 960px) {
+  /* Orden móvil: texto → imagen 1 → texto corto → imagen 2 */
+  .dd-about-grid {
     grid-template-columns: 1fr;
     grid-template-areas:
       "content"
       "art"
       "text"
       "image";
-    row-gap: 1.25rem;
+    row-gap: var(--space-5);
   }
 
-  /* Imagen 1 centrada, sin “salida” a la izquierda */
-  .dd-about-art{
+  /* Imagen 1 centrada, sin salida lateral */
+  .dd-about-art {
     margin: 0 auto;
     width: min(640px, 100%);
     height: auto;
-    aspect-ratio: 16 / 10;        /* mantiene proporción */
-    border-radius: var(--radius);
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-xl);
     isolation: isolate;
   }
-  .dd-about-art img{
+
+  .dd-about-art img {
     width: 100%;
     height: 100%;
     border-radius: inherit;
   }
 
   /* Doble borde más sutil en móvil */
-  .dd-about-art::before{ transform: translate(11px, 11px); }
-  .dd-about-art::after{  transform: translate(5px, 5px);  }
+  .dd-about-art::before  { transform: translate(11px, 11px); }
+  .dd-about-art::after   { transform: translate(5px, 5px);   }
 
-  /* El fade puede estorbar el borde en móvil: lo quitamos */
-  .dd-about-fade{ display: none; }
+  /* El fade puede tapar el borde en móvil */
+  .dd-about-fade { display: none; }
 
-  /* Texto corto centrado y foto 2 centrada */
-  .dd-about2-text p{ margin-inline: auto; }
-  .dd-about2-image{ justify-self: center; width: min(640px, 100%); }
-  .dd-about2-image::before{ transform: translate(11px, 11px); }
-  .dd-about2-image::after{  transform: translate(5px, 5px);  }
+  /* Texto y foto 2 centrados */
+  .dd-about2-text p    { margin-inline: auto; }
+  .dd-about2-image     { justify-self: center; width: min(640px, 100%); }
+  .dd-about2-image::before { transform: translate(11px, 11px); }
+  .dd-about2-image::after  { transform: translate(5px, 5px);   }
 }

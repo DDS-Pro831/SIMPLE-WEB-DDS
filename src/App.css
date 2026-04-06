@@ -1,10 +1,51 @@
-/* // src/App.css */
-.dds-layout-body{
-  min-height: calc(100dvh - 112px);
-  display: flex;
+/*
+ * src/App.css
+ *
+ * Shell de composición global de la aplicación DDS.
+ *
+ * Responsabilidades de este archivo:
+ *   - definir la estructura raíz del layout (dds-layout-body)
+ *   - reservar espacio para elementos fijos (footer)
+ *   - exponer utilidades de composición estrictamente globales
+ *
+ * Este archivo NO debe contener:
+ *   - estilos visuales de ningún componente
+ *   - declaraciones :root o variables CSS
+ *   - colores, tipografías ni animaciones
+ *   - estilos del footer, navbar, hero ni features
+ *
+ * Los tokens vienen de src/core/styles/theme.css
+ * cargado globalmente desde src/index.css.
+ *
+ * ── Cambio v2 ────────────────────────────────────────────────
+ * Eliminado .dds-has-fixed-footer: ya declarado en index.css.
+ * Tenerlo en dos archivos genera redundancia y puede producir
+ * cascada inesperada si los valores divergen en el futuro.
+ * ─────────────────────────────────────────────────────────────
+ */
+
+
+
+/* ============================
+   Shell principal
+   ============================ */
+
+/*
+ * .dds-layout-body
+ *
+ * Envuelve Navbar + Outlet + FooterReveal.
+ * min-height descuenta navbar + footer colapsado para que el
+ * contenido de páginas cortas no quede huérfano visualmente.
+ * padding-bottom reserva el espacio del footer fijo colapsado.
+ */
+.dds-layout-body {
+  min-height: calc(
+    100dvh
+    - var(--nav-height)
+    - var(--footer-collapsed-h)
+  );
+  display:        flex;
   flex-direction: column;
   justify-content: flex-start;
-
-  /* nuevo: reserva espacio de la barra fija */
-  padding-bottom: var(--fr-h-collapsed);
+  padding-bottom: var(--footer-collapsed-h);
 }

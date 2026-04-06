@@ -1,20 +1,42 @@
+/*
+ * src/features/contact/styles/contact.css
+ *
+ * Consume tokens desde src/core/styles/theme.css.
+ * NO declara :root ni variables propias.
+ *
+ * Color de fondo --color-contact-bg (#2a3553) definido
+ * en theme.css sección 2. Es distinto de --color-primary
+ * (#1e2b45): 7 puntos de diferencia en el canal azul,
+ * suficiente para ser perceptible en pantalla.
+ */
+
+
+/* ============================================================
+   SECCIÓN — Contenedor principal
+   ============================================================ */
+
 .dd-contact {
-  background: #2a3553;
-  color: #fff;
+  background: var(--color-contact-bg);
+  color: var(--color-text-inverse);
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(40px, 6vw, 72px) 16px;
+  padding: clamp(var(--space-10), 6vw, 4.5rem) var(--space-4);
 }
 
+
+/* ============================================================
+   GRID DE CONTENIDO
+   ============================================================ */
+
 .dd-contact__container {
-  max-width: var(--dd-max, 1100px);
+  max-width: var(--content-default);
   width: 100%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1.2fr;
-  gap: clamp(24px, 4vw, 64px);
+  gap: clamp(var(--space-6), 4vw, var(--space-16));
   align-items: center;
 }
 
@@ -24,8 +46,8 @@
 
 .dd-contact__left h2 {
   font-size: clamp(1.8rem, 3vw, 2.4rem);
-  margin: 0 0 20px;
-  letter-spacing: 0.3px;
+  margin: 0 0 var(--space-5);
+  letter-spacing: 0.03em;
 }
 
 .dd-contact__brand {
@@ -43,10 +65,10 @@
 
 .dd-contact__list {
   list-style: none;
-  margin: 8px 0 0;
+  margin: var(--space-2) 0 0;
   padding: 0;
   display: grid;
-  gap: 18px;
+  gap: var(--space-5);
   justify-items: start;
 }
 
@@ -54,7 +76,7 @@
   display: grid;
   grid-template-columns: 32px 1fr;
   align-items: center;
-  column-gap: 14px;
+  column-gap: var(--space-4);
 }
 
 .dd-contact__icon {
@@ -62,15 +84,17 @@
   height: 32px;
   display: grid;
   place-items: center;
-  color: #fff;
-  opacity: .95;
+  color: var(--color-text-inverse);
+  opacity: 0.95;
 }
 
 .dd-contact__link,
 .dd-contact__text {
   font-weight: 700;
-  color: #fff;
+  color: var(--color-text-inverse);
   text-decoration: none;
+  font-size: var(--text-sm);
+  transition: color var(--transition-interactive);
 }
 
 .dd-contact__link:hover,
@@ -79,27 +103,33 @@
   text-underline-offset: 3px;
 }
 
+
+/* ============================================================
+   RESPONSIVE ≤ 860px
+   ============================================================ */
+
 @media (max-width: 860px) {
   .dd-contact__container {
     grid-template-columns: 1fr;
     text-align: center;
   }
+
   .dd-contact__list {
     justify-items: center;
   }
 }
 
 
-/* ══════════════════════════════════════════════════════════
+/* ============================================================
    CTA — "Cuéntanos tu proyecto"
-   ══════════════════════════════════════════════════════════ */
+   ============================================================ */
 
 .dd-contact__cta {
-  margin-top: 28px;
+  margin-top: var(--space-8);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .dd-contact__cta-wrapper {
@@ -107,25 +137,33 @@
   display: inline-block;
 }
 
-/* ── Botón ─────────────────────────────────────────────── */
+/* ── Botón ────────────────────────────────────────────────── */
 .dd-contact__cta-button {
   position: relative;
   overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 32px;
-  background: linear-gradient(135deg, #c9a227 0%, #e8c24a 100%);
-  color: #1a2340;
-  font-size: 1.05rem;
+  padding: var(--space-4) var(--space-8);
+  background: linear-gradient(
+    135deg,
+    var(--color-cta-from) 0%,
+    var(--color-cta-to)   100%
+  );
+  color: var(--color-cta-text);
+  font-size: var(--text-base);
   font-weight: 700;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.04em;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   white-space: nowrap;
-  box-shadow: 0 4px 20px rgba(201, 162, 39, 0.4);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  /* sombra derivada de --color-cta-from al 40% */
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--color-cta-from) 40%, transparent);
+  transition:
+    transform  var(--transition-interactive),
+    box-shadow var(--transition-interactive),
+    filter     var(--transition-interactive);
 }
 
 /* Brillo deslizante periódico */
@@ -148,7 +186,7 @@
 
 .dd-contact__cta-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.55);
+  box-shadow: 0 8px 30px color-mix(in srgb, var(--color-cta-from) 55%, transparent);
   filter: brightness(1.08);
 }
 
@@ -161,7 +199,7 @@
 }
 
 .dd-contact__cta-button:focus-visible {
-  outline: 3px solid #e8c24a;
+  outline: 3px solid var(--color-cta-to);
   outline-offset: 4px;
 }
 
@@ -170,31 +208,31 @@
   z-index: 1;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .dd-contact__cta-arrow {
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  transition: transform var(--duration-base) var(--ease-out-expo);
 }
 
 .dd-contact__cta-button:hover:not(:disabled) .dd-contact__cta-arrow {
   transform: translateX(4px);
 }
 
-/* Subtítulo */
 .dd-contact__cta-subtitle {
   margin: 0;
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.65);
-  letter-spacing: 0.15px;
+  font-size: var(--text-xs);
+  color: color-mix(in srgb, var(--color-text-inverse) 65%, transparent);
+  letter-spacing: 0.015em;
   text-align: center;
 }
 
-/* ── Overlay de animación ───────────────────────────────── */
 
-/* Anclado al centro exacto del botón; w/h = 0 para que
-   los hijos desborden libremente sin clip               */
+/* ============================================================
+   OVERLAY DE ANIMACIÓN (ripple + nodos)
+   ============================================================ */
+
 .dd-contact__cta-overlay {
   position: absolute;
   top: 50%;
@@ -205,7 +243,6 @@
   z-index: 20;
 }
 
-/* Onda circular */
 .dd-contact__cta-ripple {
   position: absolute;
   width: 100px;
@@ -213,21 +250,23 @@
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(232, 194, 74, 0.55) 0%,
-    rgba(42, 53, 83, 0.28) 55%,
+    color-mix(in srgb, var(--color-cta-to)      55%, transparent) 0%,
+    color-mix(in srgb, var(--color-contact-bg)   28%, transparent) 55%,
     transparent 100%
   );
-  animation: dd-cta-ripple 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: dd-cta-ripple 0.65s var(--ease-out-expo) forwards;
 }
 
-/* Contenedor de nodos/líneas */
 .dd-contact__cta-nodes {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-/* Líneas que se extienden hacia afuera */
+/*
+ * --angle seteado inline desde ContactSection.tsx.
+ * transform: rotate(var(--angle)) no entra en keyframes.
+ */
 .dd-contact__cta-connection {
   position: absolute;
   top: 0;
@@ -235,14 +274,17 @@
   height: 1.5px;
   width: 0;
   margin-top: -0.75px;
-  background: linear-gradient(to right, rgba(232, 194, 74, 0.9), transparent);
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-cta-to) 90%, transparent),
+    transparent
+  );
   transform-origin: left center;
-  /* rotate fijo: no entra en keyframes, no hay conflicto */
   transform: rotate(var(--angle));
-  animation: dd-cta-connection 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: dd-cta-connection 0.60s var(--ease-out-expo) forwards;
 }
 
-/* Puntos dorados que vuelan hacia afuera */
+/* --dx / --dy seteados inline desde ContactSection.tsx */
 .dd-contact__cta-node {
   position: absolute;
   top: 0;
@@ -250,18 +292,20 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #e8c24a;
-  box-shadow: 0 0 8px rgba(232, 194, 74, 0.9);
-  animation: dd-cta-node 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  background: var(--color-cta-to);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--color-cta-to) 90%, transparent);
+  animation: dd-cta-node 0.60s var(--ease-out-expo) forwards;
 }
 
-/* ── Keyframes ──────────────────────────────────────────── */
+
+/* ============================================================
+   KEYFRAMES CTA
+   Mismo nombre que footer-reveal.css → sin conflicto.
+   ============================================================ */
 
 @keyframes dd-cta-shine {
-  0%,
-  100% { left: -100%; }
-  45%,
-  55%  { left: 150%;  }
+  0%,  100% { left: -100%; }
+  45%, 55%  { left: 150%;  }
 }
 
 @keyframes dd-cta-ripple {
@@ -286,16 +330,22 @@
   }
 }
 
-/* ── prefers-reduced-motion ─────────────────────────────── */
+
+/* ============================================================
+   ACCESIBILIDAD
+   ============================================================ */
+
 @media (prefers-reduced-motion: reduce) {
   .dd-contact__cta-button,
   .dd-contact__cta-arrow {
     transition: none;
   }
+
   .dd-contact__cta-button::before {
     animation: none;
     display: none;
   }
+
   .dd-contact__cta-ripple,
   .dd-contact__cta-connection,
   .dd-contact__cta-node {
@@ -304,12 +354,17 @@
   }
 }
 
-/* ── Mobile ─────────────────────────────────────────────── */
+
+/* ============================================================
+   MOBILE — CTA ancho completo ≤ 860px
+   ============================================================ */
+
 @media (max-width: 860px) {
   .dd-contact__cta,
   .dd-contact__cta-wrapper {
     width: 100%;
   }
+
   .dd-contact__cta-button {
     width: 100%;
     justify-content: center;

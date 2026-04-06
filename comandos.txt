@@ -1,4 +1,3 @@
 git add .
-git commit -m "correciones 22 03 26, formulario"
+git commit -m "correciones 05 04 26, responsive"
 git push
-

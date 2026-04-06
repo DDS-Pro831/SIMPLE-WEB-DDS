@@ -1,123 +1,205 @@
-:root{
-  --container: 1200px;
-  --pad: 24px;
-  --title: #1f2a44;   /* azul titular */
-  --text: #1e2433;    /* texto */
-  --badge-bg: #1E2B45;/* círculo numerado */
-  --radius: 20px;
+/*
+ * src/features/services/styles/services.css
+ *
+ * Consume tokens desde src/core/styles/theme.css.
+ * NO declara :root ni variables propias.
+ *
+ * ── Corrección v2 ───────────────────────────────────────────
+ * Se corrigen los 4 clamp() con min > max que causaban
+ * tamaños fijos incorrectos (los valores estaban invertidos):
+ *
+ *   gap lista:        clamp(3rem, 2.2vw, 1.25rem) → clamp(1.25rem, 2.2vw, 3rem)
+ *   ancho círculo:    clamp(80px, 4vw, 48px)       → clamp(48px, 4vw, 80px)
+ *   font círculo:     clamp(3rem, 2vw, 1.25rem)    → clamp(1.25rem, 2vw, 3rem)
+ *   font h3:          clamp(1.4rem, 1.6vw, 1.125rem) → clamp(1.125rem, 1.6vw, 1.4rem)
+ * ─────────────────────────────────────────────────────────────
+ */
+
+
+
+/* ============================================================
+   SECCIÓN
+   ============================================================ */
+
+.dd-offer {
+  background: var(--color-surface);
+  padding-block: clamp(var(--space-8), 7vw, var(--space-20));
 }
 
-.dd-offer{
-  background: #fff;
-  padding-block: clamp(2rem, 7vw, 5rem);
-}
 
-/* Grid: título arriba, teléfono izq, lista der */
-.dd-offer-grid{
-  max-width: var(--container);
+
+/* ============================================================
+   GRID: título arriba — teléfono izq — lista der
+   ============================================================ */
+
+.dd-offer-grid {
+  max-width: var(--content-wide);
   margin-inline: auto;
-  padding-inline: var(--pad);
+  padding-inline: var(--space-6);
   display: grid;
   grid-template-columns: minmax(280px, 44%) 1fr;
   grid-template-areas:
     "title title"
     "phone list";
   align-items: start;
-  column-gap: clamp(1rem, 4vw, 3rem);
-  row-gap: clamp(1rem, 3vw, 2rem);
+  column-gap: clamp(var(--space-4), 4vw, var(--space-12));
+  row-gap:    clamp(var(--space-4), 3vw, var(--space-8));
 }
 
-.dd-offer-title{
+.dd-offer-title {
   grid-area: title;
   margin: 0;
   text-align: center;
   font-size: clamp(1.9rem, 3.8vw, 2.4rem);
   line-height: 1.2;
   letter-spacing: -0.01em;
-  color: var(--title);
+  color: var(--color-text);
 }
 
-/* Teléfono */
-.dd-offer-phone{
+
+
+/* ============================================================
+   TELÉFONO (mockup)
+   ============================================================ */
+
+.dd-offer-phone {
   grid-area: phone;
-  margin: 0; /* reset figure */
+  margin: 0;
   align-self: center;
   justify-self: center;
   width: min(400px, 100%);
 }
-.dd-offer-phone img{
+
+.dd-offer-phone img {
   width: 100%;
   height: auto;
   display: block;
-  /* sombra suave para levantar el mockup */
-  filter: drop-shadow(0 10px 24px rgba(16,24,40,.18));
+  /*
+   * drop-shadow con color derivado del navy oscuro (#101828).
+   * No existe token --shadow-* para drop-shadow (solo box-shadow).
+   */
+  filter: drop-shadow(0 10px 24px rgba(16, 24, 40, 0.18));
   user-select: none;
   pointer-events: none;
 }
 
-/* Lista numerada */
-.dd-offer-list{
+
+
+/* ============================================================
+   LISTA NUMERADA
+   ============================================================ */
+
+.dd-offer-list {
   grid-area: list;
   counter-reset: step;
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  gap: clamp(3rem, 2.2vw, 1.25rem);
-  color: var(--text);
+  /*
+   * CORREGIDO: era clamp(3rem, 2.2vw, 1.25rem) — min > max.
+   * Mobile: 1.25rem (20px). Desktop amplio: hasta 3rem (48px).
+   */
+  gap: clamp(1.25rem, 2.2vw, 3rem);
+  color: var(--color-text);
 }
-.dd-offer-list > li{
+
+.dd-offer-list > li {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: start;
-  column-gap: clamp(.8rem, 2vw, 1rem);
+  column-gap: clamp(var(--space-3), 2vw, var(--space-4));
 }
 
-/* círculo numerado */
-.dd-offer-list > li::before{
+/* Círculo numerado */
+.dd-offer-list > li::before {
   counter-increment: step;
   content: counter(step);
-  width: clamp(80px, 4vw, 48px);
+  /*
+   * CORREGIDO: era clamp(80px, 4vw, 48px) — min > max.
+   * Mobile: 48px. Desktop amplio: hasta 80px.
+   */
+  width: clamp(48px, 4vw, 80px);
   aspect-ratio: 1;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   display: grid;
   place-items: center;
-  background: var(--badge-bg);
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
   font-weight: 700;
-  font-size: clamp(3rem, 2vw, 1.25rem);
+  /*
+   * CORREGIDO: era clamp(3rem, 2vw, 1.25rem) — min > max.
+   * Mobile: 1.25rem (20px). Desktop amplio: hasta 3rem (48px).
+   * Se escala proporcionalmente al ancho del círculo.
+   */
+  font-size: clamp(1.25rem, 2vw, 3rem);
   line-height: 1;
 }
 
-/* textos */
-.dd-offer-item h3{
-  margin: 0 0 .2rem 0;
-  font-size: clamp(1.4rem, 1.6vw, 1.125rem);
-  color: var(--title);
-}
-.dd-offer-item p{
-  margin: 0;
-  font-size: clamp(.95rem, 1.2vw, 1.0625rem);
-  line-height: 1.6;
-  opacity: .9;
+
+
+/* ============================================================
+   TEXTOS DE ÍTEM
+   ============================================================ */
+
+.dd-offer-item h3 {
+  margin: 0 0 var(--space-1) 0;
+  /*
+   * CORREGIDO: era clamp(1.4rem, 1.6vw, 1.125rem) — min > max.
+   * Mobile: 1.125rem (18px). Desktop amplio: hasta 1.4rem (22px).
+   */
+  font-size: clamp(1.125rem, 1.6vw, 1.4rem);
+  color: var(--color-text);
 }
 
-/* Responsive */
-@media (max-width: 980px){
-  .dd-offer-grid{
+.dd-offer-item p {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.2vw, 1.0625rem);
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+
+
+/* ============================================================
+   RESPONSIVE ≤ 980px
+   ============================================================ */
+
+@media (max-width: 980px) {
+  .dd-offer-grid {
     grid-template-columns: 1fr;
     grid-template-areas:
       "title"
       "phone"
       "list";
   }
-  .dd-offer-phone{ width: min(440px, 90%); }
-  .dd-offer-list{ margin-inline: auto; max-width: 60ch; }
-  .dd-offer-list > li::before{
-    width: clamp(50px, 4vw, 48px);
-    font-size: clamp(2rem, 2vw, 1.25rem);
+
+  .dd-offer-phone { width: min(440px, 90%); }
+
+  .dd-offer-list {
+    margin-inline: auto;
+    max-width: 60ch;
+  }
+
+  .dd-offer-list > li::before {
+    /*
+     * CORREGIDO: era clamp(50px, 4vw, 48px) — min > max (2px).
+     * En mobile el ancho de viewport es pequeño → 4vw < 50px,
+     * así que 48px fijo es correcto para esta breakpoint.
+     */
+    width: 48px;
+    font-size: 1.25rem;
   }
 }
-@media (prefers-reduced-motion: reduce){
-  * { animation: none !important; transition: none !important; }
-}
+
+
+
+/* ============================================================
+   ACCESIBILIDAD
+   ============================================================ */
+
+/*
+ * No se declara prefers-reduced-motion local.
+ * La regla global en index.css cubre todos los elementos.
+ * OffersSection no tiene animaciones ni transiciones propias.
+ */

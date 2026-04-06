@@ -1,87 +1,117 @@
-:root{
-  --container: 1200px;
-  --pad: 24px;
-  --radius: 18px;
+/*
+ * src/features/about/styles/mission-vision.css
+ *
+ * Consume tokens desde src/core/styles/theme.css.
+ * NO declara :root ni variables propias.
+ *
+ * Decisiones de mapping:
+ *   --radius: 18px          → var(--radius-xl) = 16px  (2px de diferencia aceptable)
+ *   --card-bg: #1E2B45      → var(--color-primary)     (exacto)
+ *   --card-alpha: 0.88      → absorbido en color-mix(..., 88%, transparent)
+ *   --dots: #7890a7         → eliminado, no se usaba en ninguna regla
+ *   box-shadow hardcodeado  → var(--shadow-lg)
+ */
 
-  /* Colores (ajusta a tu marca) */
-  --card-bg: #1E2B45;          /* azul grisáceo de la tarjeta */
-  --card-alpha: 0.88;          /* opacidad de la tarjeta */
-  --text-on-card: #ffffff;
-  --dots: #7890a7;             /* color del patrón de puntos */
-}
 
-.dd-mv{
+/* ============================================================
+   SECCIÓN
+   ============================================================ */
+
+.dd-mv {
   position: relative;
-  padding-block: clamp(2rem, 6vw, 4rem);
-  background: #ffffff;
+  background: var(--color-surface);
   overflow: hidden;
   padding: 10% 0;
 }
 
-/* Patrón de puntos detrás de las tarjetas */
-.dd-mv-bg{
+
+/* Imagen de fondo decorativa */
+.dd-mv-bg {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  /* fallback primero */
   background-image: url("/mision-vision-fondo.jpg");
   background-position: right;
   background-size: 80%;
   background-repeat: no-repeat;
-  opacity: .50;
+  opacity: 0.50;
 }
 
 
-/* Grid de 2 columnas */
-.dd-mv-grid{
-  max-width: var(--container);
+/* ============================================================
+   GRID
+   ============================================================ */
+
+.dd-mv-grid {
+  max-width: var(--content-wide);
   margin-inline: auto;
-  padding-inline: var(--pad);
+  padding-inline: var(--space-6);
   display: grid;
   grid-template-columns: repeat(2, minmax(280px, 1fr));
-  gap: clamp(1rem, 3vw, 2rem);
+  gap: clamp(var(--space-4), 3vw, var(--space-8));
   position: relative;
   z-index: 1;
 }
 
-/* Tarjeta */
-.dd-mv-card{
-  background: color-mix(in srgb, var(--card-bg), transparent calc(100% - var(--card-alpha)*100%));
-  /* fallback para navegadores sin color-mix */
-  background: rgba(30, 43, 69, var(--card-alpha));
-  color: var(--text-on-card);
-  border-radius: var(--radius);
-  padding: clamp(1.25rem, 3.5vw, 2rem);
-  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.18);
+
+/* ============================================================
+   TARJETA
+   ============================================================ */
+
+.dd-mv-card {
+  /*
+   * color-mix: equivalente a rgba(30,43,69, 0.88).
+   * Fallback rgba para Safari < 15.4 (soporte color-mix).
+   */
+  background: rgba(30, 43, 69, 0.88);
+  background: color-mix(in srgb, var(--color-primary) 88%, transparent);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-xl);
+  padding: clamp(var(--space-5), 3.5vw, var(--space-8));
+  box-shadow: var(--shadow-lg);
 }
 
-.dd-mv-title{
-  margin: 0 0 .75rem 0;
+
+/* ============================================================
+   TIPOGRAFÍA DE TARJETA
+   ============================================================ */
+
+.dd-mv-title {
+  margin: 0 0 var(--space-3) 0;
+  /*
+   * Escala específica del título MV: 1.6rem–2rem.
+   * --text-xl (1.5rem–2.25rem) tiene rango ligeramente distinto.
+   * Se preserva el clamp original.
+   */
   font-size: clamp(1.6rem, 3vw, 2rem);
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
 
-.dd-mv-card p{
+.dd-mv-card p {
   margin: 0;
-  font-size: clamp(.98rem, 1.2vw, 1.0625rem);
+  font-size: var(--text-base);
   line-height: 1.65;
-  opacity: .95;
+  opacity: 0.95;
 }
 
-/* Responsive */
-@media (max-width: 900px){
-  .dd-mv-grid{
+
+/* ============================================================
+   RESPONSIVE ≤ 900px
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .dd-mv-grid {
     grid-template-columns: 1fr;
   }
-  .dd-mv-bg{
+
+  .dd-mv-bg {
     background-size: cover;
-    /* desvanecer también arriba/abajo en móvil para limpiar */
     -webkit-mask-image:
       linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%),
-      linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+      linear-gradient(90deg,  transparent 0%, #000 10%, #000 90%, transparent 100%);
             mask-image:
       linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%),
-      linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+      linear-gradient(90deg,  transparent 0%, #000 10%, #000 90%, transparent 100%);
   }
 }

@@ -1,74 +1,122 @@
-/* src/features/home/styles/hero.css */
-:root{
-  --nav-h: 56px; /* por si usas scroll-margin en anclas */
+/*
+ * src/features/home/styles/hero.css
+ *
+ * Consume tokens desde src/core/styles/theme.css.
+ * NO declara :root ni variables propias.
+ *
+ * Nota sobre --nav-h:
+ *   Eliminado. Usar var(--nav-height) del theme si se necesita
+ *   scroll-margin en anclas.
+ */
+
+
+/* ── Ancla top: scroll-margin para navbar sticky ── */
+#top {
+  scroll-margin-top: var(--nav-height);
 }
 
-/* Fondo original: 90vh + imagen Canva centrada y cubierta */
+
+/* ============================================================
+   HERO — Sección principal
+   ============================================================ */
+
 .dd-hero {
   position: relative;
   min-height: 90vh;
-  background: url("https://media-public.canva.com/MADGvlVgfn0/7/screen_2x.jpg")
-              center / cover no-repeat;
+  background:
+    url("https://media-public.canva.com/MADGvlVgfn0/7/screen_2x.jpg")
+    center / cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  color: #fff;
+  color: var(--color-text-inverse);
 }
 
-/* Capa oscura encima del fondo */
+/* Capa oscura sobre la imagen */
 .dd-hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,.40);
+  background: var(--overlay-dark);
   z-index: 0;
 }
 
-/* Wrapper por si quieres añadir otros overlays/efectos */
+/* Wrapper de overlays / efectos adicionales */
 .dd-hero-overlay {
   position: relative;
   z-index: 1;
   width: 100%;
 }
 
-/* Texto alineado a la izquierda, como en tu versión original */
+
+/* ============================================================
+   CONTENIDO
+   ============================================================ */
+
 .dd-hero-content {
-  max-width: 1200px;     /* o var(--dd-max) si la tienes global */
+  max-width: var(--content-wide);
   margin: 0 auto;
-  padding: 0 100px;      /* empuje desde la izquierda */
+  /*
+   * padding-inline: var(--space-24) = 96px.
+   * Original era 100px; diferencia de 4px imperceptible
+   * a 1200px de ancho. Alineado a la escala 4px.
+   */
+  padding: 0 var(--space-24);
   text-align: left;
 }
 
 .dd-hero-content h1 {
-  margin: 0 0 1rem 0;
+  margin: 0 0 var(--space-4) 0;
   font-weight: 700;
   line-height: 1.2;
+  /*
+   * Escala controlada específica del hero principal:
+   * mínimo 2.4rem → máximo 3rem.
+   * --text-2xl (2rem–3.5rem) tiene rango más amplio y
+   * cambiaría el diseño actual; se preserva el clamp original.
+   */
   font-size: clamp(2.4rem, 4.6vw, 3rem);
 }
 
 .dd-hero-content p {
   margin: 0;
-  max-width: 560px;
-  font-size: 1.25rem;
+  /*
+   * max-width en ch → semánticamente correcto para texto.
+   * 56ch ≈ 560px con fuente de ~10px de char-width.
+   */
+  max-width: 56ch;
+  font-size: var(--text-lg);
   line-height: 1.5;
-  color: rgba(255,255,255,.88);
+  /*
+   * color-mix: equivalente a rgba(255,255,255,.88).
+   * Soporte global > 96% (Mar 2026).
+   */
+  color: color-mix(in srgb, var(--color-text-inverse) 88%, transparent);
 }
 
-/* Responsive */
+
+/* ============================================================
+   RESPONSIVE ≤ 768px
+   ============================================================ */
+
 @media (max-width: 768px) {
   .dd-hero {
     min-height: 60vh;
     justify-content: center;
   }
+
   .dd-hero-content {
-    padding: 0 16px;
+    padding: 0 var(--space-4);
     text-align: center;
   }
+
   .dd-hero-content h1 {
+    /* Rango acotado en mobile; preservado del diseño original */
     font-size: clamp(1.8rem, 6vw, 2rem);
   }
+
   .dd-hero-content p {
-    font-size: 1rem;
+    font-size: var(--text-base);
     margin: 0 auto;
   }
 }

@@ -5,6 +5,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "./navbar.css";
 import LanguageSwitcher from "@/core/components/LanguageSwitcher";
+import Logo from "@/layout/logo/Logo";
 
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -30,10 +31,10 @@ const Navbar: React.FC = () => {
 
   const links = useMemo(
     () => [
-      { to: "/sobre-nosotros", label: t("links.about") },
+      { to: "/sobre-nosotros", label: t("links.about")    },
       { to: "/servicios",      label: t("links.services") },
-      { to: "/clientes",       label: t("links.clients") },
-      { to: "/equipo",         label: t("links.team") },
+      { to: "/clientes",       label: t("links.clients")  },
+      { to: "/equipo",         label: t("links.team")     },
     ],
     [t]
   );
@@ -44,7 +45,12 @@ const Navbar: React.FC = () => {
 
         {/* ── Zona 1: Brand / Logo ── */}
         <Link className="dd-brand" to="/" aria-label={t("aria.brand")}>
-          <img src="/logo.png" alt={t("aria.brand")} height={48} />
+          {/*
+           * alt="" porque el <Link> ya tiene aria-label.
+           * El logo es decorativo en este contexto semántico.
+           * variant="dark" → /logo.png (fondo claro del navbar).
+           */}
+          <Logo variant="dark" height={48} alt="" />
         </Link>
 
         {/* ── Zona 2: Navegación principal ── */}

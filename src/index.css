@@ -30,21 +30,20 @@ body {
   padding: 0;
   height:  100%;
   scroll-behavior: smooth;
-  /* Fija el ancho de scroll para evitar layout shift al abrir modales */
   scrollbar-gutter: stable;
 }
 
 
 /* ====== Tipografía global ====== */
 body {
-  font-family:              var(--font-body);
-  font-size:                var(--text-base);
-  line-height:              1.6;
-  color:                    var(--color-text);
-  background-color:         var(--color-bg);
-  -webkit-font-smoothing:   antialiased;
-  -moz-osx-font-smoothing:  grayscale;
-  text-rendering:           optimizeLegibility;
+  font-family:             var(--font-body);
+  font-size:               var(--text-base);
+  line-height:             1.6;
+  color:                   var(--color-text);
+  background-color:        var(--color-bg);
+  -webkit-font-smoothing:  antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering:          optimizeLegibility;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -53,8 +52,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p, li {
-  text-wrap:  pretty;
-  max-width:  72ch;
+  text-wrap: pretty;
+  max-width: 72ch;
 }
 
 
@@ -71,9 +70,9 @@ video {
 
 /* ====== Links ====== */
 a {
-  color:      var(--color-primary);
+  color:           var(--color-primary);
   text-decoration: none;
-  transition: color var(--transition-interactive);
+  transition:      color var(--transition-interactive);
 }
 
 a:hover {
@@ -98,9 +97,9 @@ a:hover {
 
 /* ====== Scroll offset para secciones ancladas ====== */
 /*
-  Compensa la altura del Navbar sticky al navegar a
-  anclas internas (#seccion). Aplica a cualquier section con id.
-*/
+ * Compensa la altura del Navbar sticky al navegar a
+ * anclas internas (#seccion). Aplica a cualquier section con id.
+ */
 section[id] {
   scroll-margin-top: var(--nav-height);
 }
@@ -133,14 +132,40 @@ select {
 }
 
 
+/* ====== Clase estructural: footer fijo ====== */
+/*
+ * Aplicada por MainLayout cuando FooterReveal está montado.
+ * Reserva espacio en el extremo inferior del contenido principal
+ * para que no quede tapado por la barra de footer fija.
+ * El valor viene de --footer-bar-clearance en theme.css.
+ */
+.dds-has-fixed-footer {
+  padding-bottom: var(--footer-bar-clearance);
+}
+
+
+/* ====== Accesibilidad: skip link ====== */
+.sr-only {
+  position:   absolute;
+  width:      1px;
+  height:     1px;
+  padding:    0;
+  margin:     -1px;
+  overflow:   hidden;
+  clip:       rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+
 /* ====== Reducción de movimiento ====== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration:       0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration:      0.01ms !important;
-    scroll-behavior:          auto !important;
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1     !important;
+    transition-duration:       0.01ms !important;
+    scroll-behavior:           auto  !important;
   }
 }
