@@ -13,10 +13,10 @@ type ClientItem = {
 };
 
 const items: ClientItem[] = [
-  { name: "VetSoft",      src: "/client1.png" },
-  { name: "IG Solutions", src: "/client2.png" },
-  { name: "H&D Bakery",   src: "/client3.png" },
-  { name: "eCloud",       src: "/client4.png" },
+  { name: "VetSoft",      src: "/client1.webp" },
+  { name: "IG Solutions", src: "/client2.webp" },
+  { name: "H&D Bakery",   src: "/client3.webp" },
+  { name: "eCloud",       src: "/client4.webp" },
 ];
 
 const ClientsSection: React.FC = () => {

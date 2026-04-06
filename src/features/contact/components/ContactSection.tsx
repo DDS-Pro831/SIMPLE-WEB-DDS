@@ -67,7 +67,7 @@ const ContactSection: React.FC = () => {
 
           <div className="dd-contact__brand">
             <img
-              src="/logo-white.png"
+              src="/logo-white.webp"
               alt={t("aria.brand")}
               className="dd-contact__logo"
               loading="lazy"

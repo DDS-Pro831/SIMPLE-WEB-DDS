@@ -12,7 +12,7 @@ import i18nextInstance from "../../i18n";
 import "../styles/LanguageSwitcher.css";
 
 import flagES from "./assets/es.webp";
-import flagEN from "./assets/EEUU.png";
+import flagEN from "./assets/EEUU.webp";
 
 type Props = {
   /** Mostrar texto "Idioma/Language" a la izquierda */

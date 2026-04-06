@@ -89,7 +89,7 @@ export default function FooterReveal() {
         onClick={() => setOpen(v => !v)}
       >
         <div className="dd-footer__brand">
-          <img src="/logo-iso-white.png" alt="" aria-hidden="true" />
+          <img src="/logo-iso-white.webp" alt="" aria-hidden="true" />
           <span>{t("labels.contacto")}</span>
         </div>
         <div className="dd-footer__peek" aria-hidden="true">
@@ -101,7 +101,7 @@ export default function FooterReveal() {
       <div id="dd-footer-panel" className="dd-footer__panel" aria-hidden={!open}>
         <div className="dd-footer__content" role="region" aria-label={t("aria.content")}>
           <div className="dd-footer__left">
-            <img className="dd-footer__logo" src="/logo-white.png" alt={t("aria.brand")} />
+            <img className="dd-footer__logo" src="/logo-white.webp" alt={t("aria.brand")} />
             <p className="dd-footer__claim">{t("brand.name")}</p>
             <p className="dd-footer__subclaim">{t("brand.tagline")}</p>
 

@@ -17,10 +17,10 @@ type Member = {
 
 const MEMBERS: Member[] = [
   { id: "gabriel",  name: "Gabriel Alejandro Vera Pinto", photo: "/Gabriel-min.jpg", alt: "Gabriel Vera" },
-  { id: "daniela",  name: "Daniela Holguín Michel",        photo: "/Daniela.png",     alt: "Daniela Holguín" },
-  { id: "santiago", name: "Santiago Vega",                 photo: "/Santiago-min.png",alt: "Santiago Vega" },
+  { id: "daniela",  name: "Daniela Holguín Michel",        photo: "/Daniela.webp",     alt: "Daniela Holguín" },
+  { id: "santiago", name: "Santiago Vega",                 photo: "/Santiago-min.webp",alt: "Santiago Vega" },
   { id: "emanuel",  name: "Emanuel Gonzales Quiroz",       photo: "/Emanuel-min.jpg", alt: "Emanuel Gonzales" },
-  { id: "kevin",    name: "Kevin Uruchi Coarite",          photo: "/Kiwi-min.png",    alt: "Kevin Uruchi" },
+  { id: "kevin",    name: "Kevin Uruchi Coarite",          photo: "/Kiwi-min.webp",    alt: "Kevin Uruchi" },
   { id: "edely",    name: "Edely Tito Laredo",             photo: "/Edely-min.jpg",   alt: "Edely Tito" },
   { id: "gerardo",  name: "Gerardo Morales López",         photo: "/Gerardo-min.jpg", alt: "Gerardo Morales" }
 ];

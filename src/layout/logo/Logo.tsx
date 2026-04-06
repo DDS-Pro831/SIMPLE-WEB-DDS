@@ -9,14 +9,14 @@
  *   - ser composable desde Navbar, Footer o cualquier layout
  *
  * Props:
- *   variant   → 'dark'  usa /logo.png       (default — fondo claro)
- *               'light' usa /logo-light.png  (fondo oscuro — TODO cuando exista el asset)
+ *   variant   → 'dark'  usa /logo.webp       (default — fondo claro)
+ *               'light' usa /logo-light.webp  (fondo oscuro — TODO cuando exista el asset)
  *   height    → altura en px (default: 36)
  *   alt       → texto alternativo (default: 'DDS')
  *               Usar alt="" si el componente padre ya tiene aria-label
  *   className → clase CSS opcional para composición externa
  *
- * TODO: cuando design entregue /logo-light.png, el variant='light'
+ * TODO: cuando design entregue /logo-light.webp, el variant='light'
  *       funcionará automáticamente sin cambiar Navbar ni otros consumidores.
  */
 
@@ -36,10 +36,10 @@ const Logo: React.FC<LogoProps> = ({
   className,
 }) => {
   /*
-   * Cuando exista /logo-light.png para fondos oscuros (footer, banners),
+   * Cuando exista /logo-light.webp para fondos oscuros (footer, banners),
    * el switch de src aquí es el único cambio necesario en todo el sistema.
    */
-  const src = variant === 'light' ? '/logo-light.png' : '/logo.png';
+  const src = variant === 'light' ? '/logo-light.webp' : '/logo.webp';
 
   return (
     <img

@@ -64,7 +64,7 @@ const OffersSection: React.FC = () => {
         {/* Mockup de teléfono / dashboard — decorativo */}
         <figure className="dd-offer-phone" aria-hidden="true">
           <img
-            src="/offers-cellphone.png"
+            src="/offers-cellphone.webp"
             alt=""
             loading="lazy"
             decoding="async"

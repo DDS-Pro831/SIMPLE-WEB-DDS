@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
           {/*
            * alt="" porque el <Link> ya tiene aria-label.
            * El logo es decorativo en este contexto semántico.
-           * variant="dark" → /logo.png (fondo claro del navbar).
+           * variant="dark" → /logo.webp (fondo claro del navbar).
            */}
           <Logo variant="dark" height={48} alt="" />
         </Link>
