@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
           </NavLink>
 
           <a
-            href="https://datadrivensolutions.dev/dds-front/login"
+            /*href="https://login.datadrivensolutions.dev"*/
             className="dd-btn-login"
             target="_blank"
             rel="noopener noreferrer"
